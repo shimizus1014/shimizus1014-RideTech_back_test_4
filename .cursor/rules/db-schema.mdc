@@ -1,0 +1,93 @@
+---
+description: DBスキーマ定義・enum値の正しい値（常時適用）
+alwaysApply: true
+---
+
+# DB スキーマ定義（テーブル定義書準拠）
+
+## ⚠️ enum値の正しい値（コード全体で統一すること）
+
+### tasks.status（4値）
+```
+not_started  # 未着手
+learning     # 学習中  ← ❌ "in_progress" は誤り
+done         # 完了    ← ❌ "completed" は誤り
+paused       # 一時停止
+```
+
+### learning_plans.status（3値）
+```
+active    # 進行中
+completed # 完了
+archived  # アーカイブ
+```
+
+## テーブル定義
+
+### users
+| カラム | 型 | 備考 |
+|---|---|---|
+| id | INT PK | |
+| username | VARCHAR(50) UNIQUE | |
+| email | VARCHAR(100) UNIQUE | |
+| hashed_password | VARCHAR(255) | bcrypt |
+| bio | TEXT | 自己紹介（未実装） |
+| icon_url | VARCHAR(255) | アイコン（未実装） |
+| is_active | BOOLEAN | default true |
+| is_admin | BOOLEAN | default false |
+| created_at | DATETIME | |
+
+### learning_plans
+| カラム | 型 | 備考 |
+|---|---|---|
+| id | INT PK | |
+| user_id | INT FK→users | |
+| title | VARCHAR(100) NOT NULL | |
+| description | TEXT | 説明（未実装） |
+| icon_url | VARCHAR(255) | アイコン（未実装） |
+| is_public | BOOLEAN | 公開設定（未実装） |
+| status | VARCHAR(20) | active/completed/archived |
+| progress | FLOAT | 達成率（タスク完了率から算出） |
+| deadline | DATETIME | 目標日 |
+| created_at | DATETIME | |
+
+### tasks
+| カラム | 型 | 備考 |
+|---|---|---|
+| id | INT PK | |
+| learning_plan_id | INT FK→learning_plans | |
+| title | VARCHAR(200) NOT NULL | |
+| description | TEXT | 説明（未実装） |
+| status | VARCHAR(20) | not_started/learning/done/paused |
+| understanding_level | INT | 理解度 1〜5（未実装） |
+| order_index | INT | 並び順制御（未実装） |
+| deadline | DATETIME | |
+| created_at | DATETIME | |
+
+### comments
+| カラム | 型 | 備考 |
+|---|---|---|
+| id | INT PK | |
+| user_id | INT FK→users | |
+| target_type | VARCHAR(20) | "plan" or "task" |
+| target_id | INT | 対象のID |
+| content | TEXT NOT NULL | |
+| created_at | DATETIME | |
+
+### knowledges（ナレッジ）
+| カラム | 型 | 備考 |
+|---|---|---|
+| id | INT PK | |
+| task_id | INT FK→tasks | |
+| user_id | INT FK→users | |
+| type | VARCHAR(20) | note/url/code/file |
+| title | VARCHAR(200) | |
+| content | TEXT | |
+| created_at | DATETIME | |
+
+## 現在のモデルと正しい定義の差分（要修正）
+- `Task.status` のシードデータが `"in_progress"` / `"completed"` → `"learning"` / `"done"` に修正
+- `Task` に `description`, `understanding_level`, `order_index` カラムが未追加
+- `LearningPlan` に `description`, `is_public`, `icon_url` が未追加
+- `users` に `bio`, `icon_url` が未追加
+- `comments`, `knowledges` テーブルが未作成

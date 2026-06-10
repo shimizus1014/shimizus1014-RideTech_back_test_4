@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1440">
+  <title>S-021 コメント管理（削除中）</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #F8FAFC; color: #0F172A; min-width: 1440px; font-size: 14px; line-height: 1.5; }
+    .admin-nav { background: #1E293B; color: #fff; padding: 0 32px; display: flex; align-items: center; gap: 0; height: 52px; position: sticky; top: 0; z-index: 50; }
+    .admin-tab { display: flex; align-items: center; height: 52px; padding: 0 20px; font-size: 14px; text-decoration: none; color: #94A3B8; border-bottom: 3px solid transparent; }
+    .admin-tab.active { color: #fff; border-bottom-color: #2563EB; }
+    .filter-tab { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; font-size: 13px; font-weight: 500; border-radius: 6px; cursor: pointer; border: none; background: none; font-family: inherit; color: #64748B; }
+    .filter-tab.active { background: #2563EB; color: #fff; }
+    table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; border: 1px solid #E2E8F0; }
+    th { background: #F8FAFC; font-size: 12px; font-weight: 600; color: #64748B; padding: 10px 16px; text-align: left; border-bottom: 1px solid #E2E8F0; }
+    td { padding: 12px 16px; border-bottom: 1px solid #F1F5F9; font-size: 14px; vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    .badge { display: inline-flex; align-items: center; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
+    .btn-danger { background: #FEE2E2; color: #DC2626; border: 1px solid #FECACA; border-radius: 5px; padding: 5px 12px; font-size: 12px; font-weight: 500; cursor: pointer; font-family: inherit; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { width: 14px; height: 14px; border: 2px solid rgba(220,38,38,0.3); border-top-color: #DC2626; border-radius: 50%; animation: spin 0.7s linear infinite; }
+    @keyframes fadeOut { 0% { opacity: 1; } 100% { opacity: 0.3; } }
+    .deleting-row { animation: fadeOut 0.5s ease forwards; background: #FFF5F5; }
+    /* 投稿先ツリー */
+    .target-owner { display:flex; align-items:center; gap:4px; margin-bottom:3px; }
+    .target-avatar { width:16px; height:16px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:9px; font-weight:700; flex-shrink:0; }
+    .target-name { font-size:11px; color:#64748B; }
+    .target-row { display:flex; align-items:center; gap:3px; padding-left:8px; }
+    .target-row + .target-row { margin-top:2px; }
+    .target-branch { color:#CBD5E1; font-size:10px; width:8px; flex-shrink:0; }
+    .target-tag-plan { font-size:10px; color:#1D4ED8; background:#DBEAFE; padding:1px 4px; border-radius:3px; font-weight:600; flex-shrink:0; }
+    .target-tag-task { font-size:10px; color:#6D28D9; background:#EDE9FE; padding:1px 4px; border-radius:3px; font-weight:600; flex-shrink:0; }
+    .target-label { font-size:12px; color:#374151; font-weight:500; }
+  </style>
+</head>
+<body>
+
+  <nav class="admin-nav">
+    <div style="display:flex; align-items:center; gap:8px; margin-right:24px;">
+      <div style="width:24px; height:24px; border-radius:4px; background:#2563EB; display:flex; align-items:center; justify-content:center;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+      </div>
+      <span style="font-size:14px; font-weight:700; color:#fff;">管理者パネル</span>
+    </div>
+    <div style="width:1px; height:24px; background:#334155; margin-right:8px;"></div>
+    <a href="s019.html" class="admin-tab">ユーザー管理</a>
+    <a href="s021.html" class="admin-tab active">コメント管理</a>
+    <div style="margin-left:auto; display:flex; align-items:center; gap:20px;">
+      <a href="s007.html" style="font-size:13px; color:#94A3B8; text-decoration:none;">一般画面に戻る</a>
+      <button style="font-size:13px; color:#94A3B8; background:none; border:none; cursor:pointer;">ログアウト</button>
+    </div>
+  </nav>
+
+  <div style="padding:32px 40px;">
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;">
+      <div>
+        <h1 style="font-size:20px; font-weight:700; color:#0F172A; margin-bottom:4px;">コメント管理</h1>
+        <p style="font-size:13px; color:#64748B;">不適切なコメントを確認・削除できます。</p>
+      </div>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:4px; background:#F1F5F9; border-radius:8px; padding:4px; width:fit-content; margin-bottom:16px;">
+      <button class="filter-tab active">すべて</button>
+      <button class="filter-tab">学習計画コメント</button>
+      <button class="filter-tab">タスクコメント</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:150px;">投稿者</th>
+          <th>コメント内容</th>
+          <th style="width:220px;">投稿先（所有者 / 計画 / タスク）</th>
+          <th style="width:100px;">種別</th>
+          <th style="width:100px;">投稿日時</th>
+          <th style="width:72px; text-align:center;">削除</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- 鈴木誠: タスク / 田中太郎 > JavaScript基礎 > 変数とデータ型の理解 -->
+        <tr>
+          <td><div style="display:flex; align-items:center; gap:8px;"><div style="width:28px; height:28px; border-radius:50%; background:#F59E0B; display:flex; align-items:center; justify-content:center; color:#fff; font-size:11px; font-weight:700; flex-shrink:0;">鈴</div><span style="font-weight:500;">鈴木誠</span></div></td>
+          <td><p style="overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;">MDNのリンクが参考になりました！型変換のメモも助かります。</p></td>
+          <td>
+            <div class="target-owner"><div class="target-avatar" style="background:#2563EB;">田</div><span class="target-name">田中太郎</span></div>
+            <div class="target-row"><span class="target-branch">├</span><span class="target-tag-plan">計画</span><span class="target-label">JavaScript基礎</span></div>
+            <div class="target-row"><span class="target-branch">└</span><span class="target-tag-task">タスク</span><span class="target-label" style="font-weight:400;">変数とデータ型の理解</span></div>
+          </td>
+          <td><span class="badge" style="background:#EDE9FE; color:#6D28D9;">タスク</span></td>
+          <td style="color:#64748B; font-size:13px;">2026/06/07</td>
+          <td style="text-align:center;"><button class="btn-danger">削除</button></td>
+        </tr>
+
+        <!-- 山田花子: 学習計画 / 田中太郎 > JavaScript基礎 -->
+        <tr>
+          <td><div style="display:flex; align-items:center; gap:8px;"><div style="width:28px; height:28px; border-radius:50%; background:#16A34A; display:flex; align-items:center; justify-content:center; color:#fff; font-size:11px; font-weight:700; flex-shrink:0;">山</div><span style="font-weight:500;">山田花子</span></div></td>
+          <td><p>このJavaScriptの学習計画、とても参考になります。</p></td>
+          <td>
+            <div class="target-owner"><div class="target-avatar" style="background:#2563EB;">田</div><span class="target-name">田中太郎</span></div>
+            <div class="target-row"><span class="target-branch">└</span><span class="target-tag-plan">計画</span><span class="target-label">JavaScript基礎</span></div>
+          </td>
+          <td><span class="badge" style="background:#DBEAFE; color:#1D4ED8;">学習計画</span></td>
+          <td style="color:#64748B; font-size:13px;">2026/06/05</td>
+          <td style="text-align:center;"><button class="btn-danger">削除</button></td>
+        </tr>
+
+        <!-- 伊藤健太: 削除中（フェードアウト） / 山田花子 > Python基礎 -->
+        <tr class="deleting-row">
+          <td><div style="display:flex; align-items:center; gap:8px; opacity:0.5;"><div style="width:28px; height:28px; border-radius:50%; background:#7C3AED; display:flex; align-items:center; justify-content:center; color:#fff; font-size:11px; font-weight:700;">伊</div><span style="font-weight:500;">伊藤健太</span></div></td>
+          <td style="opacity:0.5; color:#DC2626; font-weight:500;"><p>このページ全然役に立たない。最悪。スパムだよ。</p></td>
+          <td style="opacity:0.5;">
+            <div class="target-owner"><div class="target-avatar" style="background:#16A34A;">山</div><span class="target-name">山田花子</span></div>
+            <div class="target-row"><span class="target-branch">└</span><span class="target-tag-plan">計画</span><span class="target-label">Python基礎</span></div>
+          </td>
+          <td style="opacity:0.5;"><span class="badge" style="background:#DBEAFE; color:#1D4ED8;">学習計画</span></td>
+          <td style="color:#64748B; font-size:13px; opacity:0.5;">2026/06/03</td>
+          <td style="text-align:center; vertical-align:middle;">
+            <div style="display:flex; align-items:center; justify-content:center; gap:5px;">
+              <div class="spinner"></div>
+              <span style="font-size:11px; color:#DC2626; font-weight:500;">削除中...</span>
+            </div>
+          </td>
+        </tr>
+
+        <!-- 田中太郎: タスク / 佐藤美咲 > React入門 > コンポーネント設計 -->
+        <tr>
+          <td><div style="display:flex; align-items:center; gap:8px;"><div style="width:28px; height:28px; border-radius:50%; background:#2563EB; display:flex; align-items:center; justify-content:center; color:#fff; font-size:11px; font-weight:700; flex-shrink:0;">田</div><span style="font-weight:500;">田中太郎</span></div></td>
+          <td><p>コードの整理方法がよくわかりました。</p></td>
+          <td>
+            <div class="target-owner"><div class="target-avatar" style="background:#F59E0B;">佐</div><span class="target-name">佐藤美咲</span></div>
+            <div class="target-row"><span class="target-branch">├</span><span class="target-tag-plan">計画</span><span class="target-label">React入門</span></div>
+            <div class="target-row"><span class="target-branch">└</span><span class="target-tag-task">タスク</span><span class="target-label" style="font-weight:400;">コンポーネント設計</span></div>
+          </td>
+          <td><span class="badge" style="background:#EDE9FE; color:#6D28D9;">タスク</span></td>
+          <td style="color:#64748B; font-size:13px;">2026/06/01</td>
+          <td style="text-align:center;"><button class="btn-danger">削除</button></td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <div style="position:fixed; top:68px; right:16px; background:#64748B; color:#fff; padding:6px 12px; border-radius:20px; font-size:12px; font-weight:600;">
+    状態: 削除中（Spinner + フェードアウト）
+  </div>
+</body>
+</html>

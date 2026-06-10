@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Figmaモックアップ 画面一覧</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #F8FAFC; color: #0F172A; margin: 0; padding: 40px; }
+    h1 { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+    p { color: #64748B; margin-bottom: 32px; }
+    .section { margin-bottom: 32px; }
+    .section h2 { font-size: 14px; font-weight: 600; color: #64748B; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+    a.card { display: block; background: #fff; border: 1px solid #E2E8F0; border-radius: 8px; padding: 16px 20px; text-decoration: none; color: #0F172A; transition: box-shadow 0.15s; }
+    a.card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-color: #2563EB; }
+    .card-id { font-size: 11px; font-weight: 600; color: #2563EB; margin-bottom: 4px; }
+    .card-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+    .card-state { font-size: 12px; color: #64748B; }
+    .badge { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 12px; margin-left: 6px; }
+    .badge-normal { background: #DBEAFE; color: #1D4ED8; }
+    .badge-loading { background: #F1F5F9; color: #64748B; }
+    .badge-empty { background: #FEF9C3; color: #92400E; }
+    .badge-error { background: #FEE2E2; color: #B91C1C; }
+    .badge-success { background: #DCFCE7; color: #15803D; }
+    .badge-modal { background: #FEE2E2; color: #B91C1C; }
+    .divider { border: none; border-top: 2px solid #E2E8F0; margin: 8px 0 32px; }
+  </style>
+</head>
+<body>
+  <h1>Figmaモックアップ</h1>
+  <p>generate_figma_design でキャプチャする画面の一覧です。ポート 8080 で起動中。</p>
+
+  <!-- ========== 認証 ========== -->
+  <div class="section">
+    <h2>S-001 ログイン</h2>
+    <div class="grid">
+      <a href="s001.html" class="card">
+        <div class="card-id">S-001</div>
+        <div class="card-title">ログイン <span class="badge badge-normal">通常</span></div>
+        <div class="card-state">メール・パスワード入力・Tab順序付き</div>
+      </a>
+      <a href="s001-error.html" class="card">
+        <div class="card-id">S-001</div>
+        <div class="card-title">ログイン <span class="badge badge-error">バリデ＋サーバーエラー</span></div>
+        <div class="card-state">赤枠フィールド・エラーバナー</div>
+      </a>
+      <a href="s001-loading.html" class="card">
+        <div class="card-id">S-001</div>
+        <div class="card-title">ログイン <span class="badge badge-loading">送信中</span></div>
+        <div class="card-state">スピナー・フォーム無効化</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>S-003 パスワード再発行</h2>
+    <div class="grid">
+      <a href="s003.html" class="card">
+        <div class="card-id">S-003</div>
+        <div class="card-title">パスワード再発行 <span class="badge badge-normal">通常</span></div>
+        <div class="card-state">メール入力・Tab順序付き</div>
+      </a>
+      <a href="s003-success.html" class="card">
+        <div class="card-id">S-003</div>
+        <div class="card-title">パスワード再発行 <span class="badge badge-success">送信完了</span></div>
+        <div class="card-state">成功メッセージ・ログインに戻るリンク</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>S-004 ユーザー登録（入力）</h2>
+    <div class="grid">
+      <a href="s004.html" class="card">
+        <div class="card-id">S-004</div>
+        <div class="card-title">ユーザー登録 入力 <span class="badge badge-normal">通常</span></div>
+        <div class="card-state">4項目フォーム・ステップ1 active</div>
+      </a>
+      <a href="s004-error.html" class="card">
+        <div class="card-id">S-004</div>
+        <div class="card-title">ユーザー登録 入力 <span class="badge badge-error">バリデエラー</span></div>
+        <div class="card-state">3フィールドエラー・ステップ赤</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>S-005 ユーザー登録（確認）</h2>
+    <div class="grid">
+      <a href="s005.html" class="card">
+        <div class="card-id">S-005</div>
+        <div class="card-title">登録内容確認 <span class="badge badge-normal">通常</span></div>
+        <div class="card-state">確認テーブル・ステップ2 active</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>S-006 ユーザー登録（完了）</h2>
+    <div class="grid">
+      <a href="s006.html" class="card">
+        <div class="card-id">S-006</div>
+        <div class="card-title">登録完了 <span class="badge badge-success">完了</span></div>
+        <div class="card-state">チェックアイコン・全ステップ緑</div>
+      </a>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ========== メイン機能 ========== -->
+  <div class="section">
+    <h2>S-007 ダッシュボード</h2>
+    <div class="grid">
+      <a href="s007.html" class="card">
+        <div class="card-id">S-007</div>
+        <div class="card-title">ダッシュボード <span class="badge badge-normal">通常</span></div>
+        <div class="card-state">統計・進行中計画・期限タスク</div>
+      </a>
+      <a href="s007-loading.html" class="card">
+        <div class="card-id">S-007</div>
+        <div class="card-title">ダッシュボード <span class="badge badge-loading">ロード中</span></div>
+        <div class="card-state">スケルトン全セクション</div>
+      </a>
+      <a href="s007-empty.html" class="card">
+        <div class="card-id">S-007</div>
+        <div class="card-title">ダッシュボード <span class="badge badge-empty">データなし</span></div>
+        <div class="card-state">EmptyState・計画作成CTAあり</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>S-008 学習計画一覧</h2>
+    <div class="grid">
+      <a href="s008.html" class="card">
+        <div class="card-id">S-008</div>
+        <div class="card-title">学習計画一覧 <span class="badge badge-normal">通常</span></div>
+        <div class="card-state">データあり・2列グリッド表示</div>
+      </a>
+      <a href="s008-loading.html" class="card">
+        <div class="card-id">S-008</div>
+        <div class="card-title">学習計画一覧 <span class="badge badge-loading">ロード中</span></div>
+        <div class="card-state">スケルトンカード表示</div>
+      </a>
+      <a href="s008-empty.html" class="card">
+        <div class="card-id">S-008</div>
+        <div class="card-title">学習計画一覧 <span class="badge badge-empty">データなし</span></div>
+        <div class="card-state">EmptyState コンポーネント</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>S-009 学習計画 作成・編集</h2>
+    <div class="grid">
+      <a href="s009-create.html" class="card">
+        <div class="card-id">S-009</div>
+        <div class="card-title">学習計画 作成 <span class="badge badge-normal">新規</span></div>
+        <div class="card-state">フォーム空欄・Tab順序付き</div>
+      </a>
+      <a href="s009-edit.html" class="card">
+        <div class="card-id">S-009</div>
+        <div class="card-title">学習計画 編集 <span class="badge badge-error">バリデエラー</span></div>
+        <div class="card-state">プリフィル済み・エラー表示</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>S-010 学習計画 詳細</h2>
+    <div class="grid">
+      <a href="s010.html" class="card">
+        <div class="card-id">S-010</div>
+        <div class="card-title">学習計画 詳細 <span class="badge badge-normal">通常</span></div>
+        <div class="card-state">タスク一覧・コメントあり</div>
+      </a>
+      <a href="s010-empty.html" class="card">
+        <div class="card-id">S-010</div>
+        <div class="card-title">学習計画 詳細 <span class="badge badge-empty">タスクなし</span></div>
+        <div class="card-state">タスクセクション EmptyState</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>S-011 タスク 作成・編集</h2>
+    <div class="grid">
+      <a href="s011.html" class="card">
+        <div class="card-id">S-011</div>
+        <div class="card-title">タスク作成 <span class="badge badge-normal">新規</span></div>
+        <div class="card-state">全フィールド空・Tab順序①〜⑦</div>
+      </a>
+      <a href="s011-edit.html" class="card">
+        <div class="card-id">S-011</div>
+        <div class="card-title">タスク編集 <span class="badge" style="background:#FEF9C3;color:#92400E;">プリフィル</span></div>
+        <div class="card-state">既存データ入力済み・理解度★3</div>
+      </a>
+      <a href="s011-saving.html" class="card">
+        <div class="card-id">S-011</div>
+        <div class="card-title">タスク保存中 <span class="badge badge-loading">送信中</span></div>
+        <div class="card-state">全フォーム Disabled・Spinner</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>S-012 タスク詳細</h2>
+    <div class="grid">
+      <a href="s012.html" class="card">
+        <div class="card-id">S-012</div>
+        <div class="card-title">タスク詳細 <span class="badge badge-normal">通常</span></div>
+        <div class="card-state">ナレッジ3件・コメント2件</div>
+      </a>
+      <a href="s012-loading.html" class="card">
+        <div class="card-id">S-012</div>
+        <div class="card-title">タスク詳細 <span class="badge badge-loading">ロード中</span></div>
+        <div class="card-state">全セクション Skeleton</div>
+      </a>
+      <a href="s012-empty.html" class="card">
+        <div class="card-id">S-012</div>
+        <div class="card-title">タスク詳細 <span class="badge badge-empty">データなし</span></div>
+        <div class="card-state">ナレッジなし・コメントなし EmptyState</div>
+      </a>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ========== 削除確認モーダル ========== -->
+  <div class="section">
+    <h2>S-013 学習計画 削除確認モーダル</h2>
+    <div class="grid">
+      <a href="s013.html" class="card">
+        <div class="card-id">S-013</div>
+        <div class="card-title">学習計画削除確認 <span class="badge badge-modal">通常</span></div>
+        <div class="card-state">S-010背景blur・警告モーダル・Tab①②</div>
+      </a>
+      <a href="s013-deleting.html" class="card">
+        <div class="card-id">S-013</div>
+        <div class="card-title">学習計画削除確認 <span class="badge badge-loading">削除中</span></div>
+        <div class="card-state">削除ボタン Disabled + Spinner</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>S-014 タスク削除確認モーダル</h2>
+    <div class="grid">
+      <a href="s014.html" class="card">
+        <div class="card-id">S-014</div>
+        <div class="card-title">タスク削除確認 <span class="badge badge-modal">通常</span></div>
+        <div class="card-state">S-012背景blur・警告モーダル・Tab①②</div>
+      </a>
+      <a href="s014-deleting.html" class="card">
+        <div class="card-id">S-014</div>
+        <div class="card-title">タスク削除確認 <span class="badge badge-loading">削除中</span></div>
+        <div class="card-state">削除ボタン Disabled + Spinner</div>
+      </a>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ========== ユーザー検索・閲覧 ========== -->
+  <div class="section">
+    <h2>S-015 ユーザー検索</h2>
+    <div class="grid">
+      <a href="s015.html" class="card">
+        <div class="card-id">S-015</div>
+        <div class="card-title">ユーザー検索 <span class="badge badge-loading">初期</span></div>
+        <div class="card-state">案内文・検索前</div>
+      </a>
+      <a href="s015-results.html" class="card">
+        <div class="card-id">S-015</div>
+        <div class="card-title">ユーザー検索 <span class="badge badge-normal">結果あり</span></div>
+        <div class="card-state">検索結果カード3件</div>
+      </a>
+      <a href="s015-loading.html" class="card">
+        <div class="card-id">S-015</div>
+        <div class="card-title">ユーザー検索 <span class="badge badge-loading">検索中</span></div>
+        <div class="card-state">Skeleton + 入力Disabled</div>
+      </a>
+      <a href="s015-empty.html" class="card">
+        <div class="card-id">S-015</div>
+        <div class="card-title">ユーザー検索 <span class="badge badge-empty">結果なし</span></div>
+        <div class="card-state">EmptyState + 検索ヒント</div>
+      </a>
+      <a href="s015-error.html" class="card">
+        <div class="card-id">S-015</div>
+        <div class="card-title">ユーザー検索 <span class="badge badge-error">エラー</span></div>
+        <div class="card-state">500エラーバナー + 再試行</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>S-016 ユーザープロフィール（他ユーザー）</h2>
+    <div class="grid">
+      <a href="s016.html" class="card">
+        <div class="card-id">S-016</div>
+        <div class="card-title">プロフィール <span class="badge badge-normal">通常</span></div>
+        <div class="card-state">Avatar大・公開計画4件</div>
+      </a>
+      <a href="s016-loading.html" class="card">
+        <div class="card-id">S-016</div>
+        <div class="card-title">プロフィール <span class="badge badge-loading">ロード中</span></div>
+        <div class="card-state">全セクション Skeleton</div>
+      </a>
+      <a href="s016-empty.html" class="card">
+        <div class="card-id">S-016</div>
+        <div class="card-title">プロフィール <span class="badge badge-empty">公開計画なし</span></div>
+        <div class="card-state">EmptyState</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>S-017 公開学習計画詳細（閲覧専用）</h2>
+    <div class="grid">
+      <a href="s017.html" class="card">
+        <div class="card-id">S-017</div>
+        <div class="card-title">公開計画詳細 <span class="badge badge-normal">通常</span></div>
+        <div class="card-state">InfoBanner・タスク一覧・コメント2件</div>
+      </a>
+      <a href="s017-loading.html" class="card">
+        <div class="card-id">S-017</div>
+        <div class="card-title">公開計画詳細 <span class="badge badge-loading">ロード中</span></div>
+        <div class="card-state">全セクション Skeleton</div>
+      </a>
+      <a href="s017-empty.html" class="card">
+        <div class="card-id">S-017</div>
+        <div class="card-title">公開計画詳細 <span class="badge badge-empty">データなし</span></div>
+        <div class="card-state">タスク・コメントともに0件 EmptyState</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>S-018 公開タスク詳細（閲覧専用）</h2>
+    <div class="grid">
+      <a href="s018.html" class="card">
+        <div class="card-id">S-018</div>
+        <div class="card-title">公開タスク詳細 <span class="badge badge-normal">通常</span></div>
+        <div class="card-state">InfoBanner・ナレッジ2件・コメント1件</div>
+      </a>
+      <a href="s018-loading.html" class="card">
+        <div class="card-id">S-018</div>
+        <div class="card-title">公開タスク詳細 <span class="badge badge-loading">ロード中</span></div>
+        <div class="card-state">全セクション Skeleton</div>
+      </a>
+      <a href="s018-empty.html" class="card">
+        <div class="card-id">S-018</div>
+        <div class="card-title">公開タスク詳細 <span class="badge badge-empty">データなし</span></div>
+        <div class="card-state">ナレッジなし・コメントなし EmptyState</div>
+      </a>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ========== プロフィール・設定 ========== -->
+  <div class="section">
+    <h2>サイドバー プロフィールメニュー</h2>
+    <div class="grid">
+      <a href="s007-profile-open.html" class="card">
+        <div class="card-id">S-007</div>
+        <div class="card-title">ダッシュボード <span class="badge badge-normal">メニュー展開中</span></div>
+        <div class="card-state">アバタークリック → ドロップダウン表示</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>S-022 マイプロフィール</h2>
+    <div class="grid">
+      <a href="s022.html" class="card">
+        <div class="card-id">S-022</div>
+        <div class="card-title">マイプロフィール <span class="badge badge-normal">通常</span></div>
+        <div class="card-state">Avatar大・公開計画4件・編集ボタン表示</div>
+      </a>
+      <a href="s022-loading.html" class="card">
+        <div class="card-id">S-022</div>
+        <div class="card-title">マイプロフィール <span class="badge" style="background:#F1F5F9;color:#475569;">ロード中</span></div>
+        <div class="card-state">スケルトンローダー（シマーアニメーション）</div>
+      </a>
+      <a href="s022-edit.html" class="card">
+        <div class="card-id">S-022</div>
+        <div class="card-title">プロフィール編集 <span class="badge" style="background:#FEF9C3;color:#92400E;">編集フォーム</span></div>
+        <div class="card-state">アバター変更・基本情報・公開設定トグル</div>
+      </a>
+      <a href="s022-edit-error.html" class="card">
+        <div class="card-id">S-022</div>
+        <div class="card-title">プロフィール編集 <span class="badge" style="background:#FEE2E2;color:#B91C1C;">バリデエラー</span></div>
+        <div class="card-state">Tab順序①〜⑧・型注記・コンポーネント境界・フォーカスリング表示</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>S-023 設定</h2>
+    <div class="grid">
+      <a href="s023.html" class="card">
+        <div class="card-id">S-023</div>
+        <div class="card-title">設定 <span class="badge badge-normal">アカウントタブ</span></div>
+        <div class="card-state">メール変更・パスワード変更・アカウント削除</div>
+      </a>
+      <a href="s023-loading.html" class="card">
+        <div class="card-id">S-023</div>
+        <div class="card-title">設定 <span class="badge" style="background:#F1F5F9;color:#475569;">ロード中</span></div>
+        <div class="card-state">タブ・3セクションのスケルトンローダー</div>
+      </a>
+      <a href="s023-error.html" class="card">
+        <div class="card-id">S-023</div>
+        <div class="card-title">設定 <span class="badge" style="background:#FEE2E2;color:#B91C1C;">エラー</span></div>
+        <div class="card-state">パスワード不一致エラー・Tab順序・型注記・コンポーネント境界</div>
+      </a>
+      <a href="s023-success.html" class="card">
+        <div class="card-id">S-023</div>
+        <div class="card-title">設定 <span class="badge" style="background:#DCFCE7;color:#166534;">保存成功</span></div>
+        <div class="card-state">トースト通知スライドイン・フォームリセット・無効化状態</div>
+      </a>
+      <a href="s023-delete-confirm.html" class="card">
+        <div class="card-id">S-023</div>
+        <div class="card-title">設定 <span class="badge" style="background:#FEE2E2;color:#B91C1C;">削除確認モーダル</span></div>
+        <div class="card-state">確認テキスト入力・削除ボタン無効→有効・モーダルFocusTrap</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>S-024 アカウント削除処理</h2>
+    <div class="grid">
+      <a href="s024-deleting.html" class="card">
+        <div class="card-id">S-024</div>
+        <div class="card-title">アカウント削除中 <span class="badge" style="background:#FEE2E2;color:#B91C1C;">処理中</span></div>
+        <div class="card-state">スピナー・ステップ進捗表示・操作不可・完了後に自動遷移</div>
+      </a>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ========== 管理者 ========== -->
+  <div class="section">
+    <h2>S-019 ユーザー一覧（管理者）</h2>
+    <div class="grid">
+      <a href="s019.html" class="card">
+        <div class="card-id">S-019</div>
+        <div class="card-title">ユーザー一覧 <span class="badge badge-normal">通常</span></div>
+        <div class="card-state">管理者パネル・テーブル6件・権限/状態Badge</div>
+      </a>
+      <a href="s019-loading.html" class="card">
+        <div class="card-id">S-019</div>
+        <div class="card-title">ユーザー一覧 <span class="badge badge-loading">ロード中</span></div>
+        <div class="card-state">Skeleton行 ×5</div>
+      </a>
+      <a href="s019-empty.html" class="card">
+        <div class="card-id">S-019</div>
+        <div class="card-title">ユーザー一覧 <span class="badge badge-empty">データなし</span></div>
+        <div class="card-state">テーブル内 EmptyState</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>S-020 ユーザー管理（管理者）</h2>
+    <div class="grid">
+      <a href="s020.html" class="card">
+        <div class="card-id">S-020</div>
+        <div class="card-title">ユーザー管理 <span class="badge badge-normal">通常</span></div>
+        <div class="card-state">Avatar情報・状態/権限 Select・Tab順序付き</div>
+      </a>
+      <a href="s020-saving.html" class="card">
+        <div class="card-id">S-020</div>
+        <div class="card-title">ユーザー管理 <span class="badge badge-loading">保存中</span></div>
+        <div class="card-state">全フォーム Disabled・保存中スピナー</div>
+      </a>
+      <a href="s020-success.html" class="card">
+        <div class="card-id">S-020</div>
+        <div class="card-title">ユーザー管理 <span class="badge badge-success">保存成功</span></div>
+        <div class="card-state">Toast Success（右上スライドイン）</div>
+      </a>
+      <a href="s020-error.html" class="card">
+        <div class="card-id">S-020</div>
+        <div class="card-title">ユーザー管理 <span class="badge badge-error">エラー</span></div>
+        <div class="card-state">AlertBanner（500エラー）・再試行ボタン</div>
+      </a>
+      <a href="s020-delete-confirm.html" class="card">
+        <div class="card-id">S-020</div>
+        <div class="card-title">ユーザー管理 <span class="badge badge-error">削除確認モーダル</span></div>
+        <div class="card-state">削除対象ユーザー情報・削除内容リスト・キャンセル/削除ボタン</div>
+      </a>
+      <a href="s020-deleting.html" class="card">
+        <div class="card-id">S-020</div>
+        <div class="card-title">ユーザー管理 <span class="badge badge-loading">削除処理中</span></div>
+        <div class="card-state">スピナー・ステップ進捗（3段階）・操作不能オーバーレイ</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>S-021 コメント管理（管理者）</h2>
+    <div class="grid">
+      <a href="s021.html" class="card">
+        <div class="card-id">S-021</div>
+        <div class="card-title">コメント管理 <span class="badge badge-normal">通常</span></div>
+        <div class="card-state">フィルタータブ・コメントテーブル5件・要確認行ハイライト</div>
+      </a>
+      <a href="s021-confirm.html" class="card">
+        <div class="card-id">S-021</div>
+        <div class="card-title">コメント管理 <span class="badge badge-modal">削除確認</span></div>
+        <div class="card-state">インライン確認パネル・①削除する②キャンセル</div>
+      </a>
+      <a href="s021-deleting.html" class="card">
+        <div class="card-id">S-021</div>
+        <div class="card-title">コメント管理 <span class="badge badge-loading">削除中</span></div>
+        <div class="card-state">対象行 Spinner + フェードアウト</div>
+      </a>
+      <a href="s021-success.html" class="card">
+        <div class="card-id">S-021</div>
+        <div class="card-title">コメント管理 <span class="badge badge-success">削除完了</span></div>
+        <div class="card-state">Toast Success・削除行が消えた4件表示</div>
+      </a>
+      <a href="s021-empty.html" class="card">
+        <div class="card-id">S-021</div>
+        <div class="card-title">コメント管理 <span class="badge badge-empty">データなし</span></div>
+        <div class="card-state">テーブル内 EmptyState</div>
+      </a>
+    </div>
+  </div>
+</body>
+</html>

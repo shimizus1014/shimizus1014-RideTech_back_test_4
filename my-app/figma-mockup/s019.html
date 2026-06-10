@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1440">
+  <title>S-019 ユーザー一覧（管理者）</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #F8FAFC; color: #0F172A; min-width: 1440px; font-size: 14px; line-height: 1.5; }
+    .admin-nav { background: #1E293B; color: #fff; padding: 0 32px; display: flex; align-items: center; gap: 0; height: 52px; position: sticky; top: 0; z-index: 50; }
+    .admin-tab { display: flex; align-items: center; height: 52px; padding: 0 20px; font-size: 14px; text-decoration: none; color: #94A3B8; border-bottom: 3px solid transparent; transition: color 0.15s; }
+    .admin-tab.active { color: #fff; border-bottom-color: #2563EB; }
+    .admin-tab:hover { color: #E2E8F0; }
+    .input { border: 1px solid #E2E8F0; border-radius: 6px; padding: 8px 12px 8px 34px; font-size: 14px; color: #0F172A; background: #fff; outline: none; font-family: inherit; width: 260px; }
+    .input:focus { border-color: #2563EB; box-shadow: 0 0 0 3px rgba(37,99,235,0.12); }
+    .badge { display: inline-flex; align-items: center; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
+    table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; border: 1px solid #E2E8F0; }
+    th { background: #F8FAFC; font-size: 12px; font-weight: 600; color: #64748B; padding: 10px 16px; text-align: left; border-bottom: 1px solid #E2E8F0; white-space: nowrap; }
+    td { padding: 12px 16px; border-bottom: 1px solid #F1F5F9; font-size: 14px; vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #F8FAFC; }
+    .btn-sm { border: none; border-radius: 5px; padding: 5px 12px; font-size: 12px; font-weight: 500; cursor: pointer; font-family: inherit; }
+  </style>
+</head>
+<body>
+
+  <!-- Admin top nav -->
+  <nav class="admin-nav">
+    <div style="display:flex; align-items:center; gap:8px; margin-right:24px;">
+      <div style="width:24px; height:24px; border-radius:4px; background:#2563EB; display:flex; align-items:center; justify-content:center;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+      </div>
+      <span style="font-size:14px; font-weight:700; color:#fff;">管理者パネル</span>
+    </div>
+    <div style="width:1px; height:24px; background:#334155; margin-right:8px;"></div>
+    <a href="s019.html" class="admin-tab active">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="margin-right:6px;"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/></svg>
+      ユーザー管理
+    </a>
+    <a href="s021.html" class="admin-tab">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="margin-right:6px;"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"/></svg>
+      コメント管理
+    </a>
+    <div style="margin-left:auto; display:flex; align-items:center; gap:20px;">
+      <a href="s007.html" style="font-size:13px; color:#94A3B8; text-decoration:none; display:flex; align-items:center; gap:4px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
+        一般画面に戻る
+      </a>
+      <button style="font-size:13px; color:#94A3B8; background:none; border:none; cursor:pointer;">ログアウト</button>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <div style="padding:32px 40px;">
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:24px;">
+      <div>
+        <h1 style="font-size:20px; font-weight:700; color:#0F172A; margin-bottom:4px;">ユーザー管理</h1>
+        <p style="font-size:13px; color:#64748B;">登録ユーザーの権限・状態を管理します。</p>
+      </div>
+      <span style="font-size:13px; color:#64748B;">全 6 件</span>
+    </div>
+
+    <!-- Search -->
+    <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+      <div style="position:relative;">
+        <svg style="position:absolute; left:10px; top:50%; transform:translateY(-50%); pointer-events:none;" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#94A3B8" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <input type="search" class="input" placeholder="ユーザー名で絞り込み">
+      </div>
+      <select style="border:1px solid #E2E8F0; border-radius:6px; padding:8px 12px; font-size:14px; background:#fff; font-family:inherit; cursor:pointer; color:#0F172A; outline:none;">
+        <option>すべての権限</option>
+        <option>一般ユーザー</option>
+        <option>管理者</option>
+      </select>
+      <select style="border:1px solid #E2E8F0; border-radius:6px; padding:8px 12px; font-size:14px; background:#fff; font-family:inherit; cursor:pointer; color:#0F172A; outline:none;">
+        <option>すべての状態</option>
+        <option>アクティブ</option>
+        <option>停止中</option>
+      </select>
+    </div>
+
+    <!-- Table -->
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>ユーザー名</th>
+          <th>メールアドレス</th>
+          <th>権限</th>
+          <th>状態</th>
+          <th>登録日時</th>
+          <th style="text-align:center;">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="color:#94A3B8; font-size:12px;">#001</td>
+          <td>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <div style="width:28px; height:28px; border-radius:50%; background:#2563EB; display:flex; align-items:center; justify-content:center; color:#fff; font-size:11px; font-weight:700; flex-shrink:0;">田</div>
+              田中太郎
+            </div>
+          </td>
+          <td style="color:#64748B;">tanaka@example.com</td>
+          <td><span class="badge" style="background:#EDE9FE; color:#6D28D9;">admin</span></td>
+          <td><span class="badge" style="background:#DCFCE7; color:#15803D;">active</span></td>
+          <td style="color:#64748B; font-size:13px;">2025/04/10</td>
+          <td style="text-align:center;">
+            <a href="s020.html" class="btn-sm" style="background:#EFF6FF; color:#2563EB;">管理</a>
+          </td>
+        </tr>
+        <tr>
+          <td style="color:#94A3B8; font-size:12px;">#002</td>
+          <td>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <div style="width:28px; height:28px; border-radius:50%; background:#16A34A; display:flex; align-items:center; justify-content:center; color:#fff; font-size:11px; font-weight:700; flex-shrink:0;">山</div>
+              山田花子
+            </div>
+          </td>
+          <td style="color:#64748B;">yamada@example.com</td>
+          <td><span class="badge" style="background:#DBEAFE; color:#1D4ED8;">user</span></td>
+          <td><span class="badge" style="background:#DCFCE7; color:#15803D;">active</span></td>
+          <td style="color:#64748B; font-size:13px;">2025/05/22</td>
+          <td style="text-align:center;">
+            <a href="s020.html" class="btn-sm" style="background:#EFF6FF; color:#2563EB;">管理</a>
+          </td>
+        </tr>
+        <tr>
+          <td style="color:#94A3B8; font-size:12px;">#003</td>
+          <td>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <div style="width:28px; height:28px; border-radius:50%; background:#7C3AED; display:flex; align-items:center; justify-content:center; color:#fff; font-size:11px; font-weight:700; flex-shrink:0;">鈴</div>
+              鈴木誠
+            </div>
+          </td>
+          <td style="color:#64748B;">suzuki@example.com</td>
+          <td><span class="badge" style="background:#DBEAFE; color:#1D4ED8;">user</span></td>
+          <td><span class="badge" style="background:#DCFCE7; color:#15803D;">active</span></td>
+          <td style="color:#64748B; font-size:13px;">2025/06/01</td>
+          <td style="text-align:center;">
+            <a href="s020.html" class="btn-sm" style="background:#EFF6FF; color:#2563EB;">管理</a>
+          </td>
+        </tr>
+        <tr>
+          <td style="color:#94A3B8; font-size:12px;">#004</td>
+          <td>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <div style="width:28px; height:28px; border-radius:50%; background:#F59E0B; display:flex; align-items:center; justify-content:center; color:#fff; font-size:11px; font-weight:700; flex-shrink:0;">佐</div>
+              佐藤美咲
+            </div>
+          </td>
+          <td style="color:#64748B;">sato@example.com</td>
+          <td><span class="badge" style="background:#DBEAFE; color:#1D4ED8;">user</span></td>
+          <td><span class="badge" style="background:#FEE2E2; color:#B91C1C;">suspended</span></td>
+          <td style="color:#64748B; font-size:13px;">2025/08/14</td>
+          <td style="text-align:center;">
+            <a href="s020.html" class="btn-sm" style="background:#EFF6FF; color:#2563EB;">管理</a>
+          </td>
+        </tr>
+        <tr>
+          <td style="color:#94A3B8; font-size:12px;">#005</td>
+          <td>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <div style="width:28px; height:28px; border-radius:50%; background:#0EA5E9; display:flex; align-items:center; justify-content:center; color:#fff; font-size:11px; font-weight:700; flex-shrink:0;">田</div>
+              田中一郎
+            </div>
+          </td>
+          <td style="color:#64748B;">tanaka.i@example.com</td>
+          <td><span class="badge" style="background:#DBEAFE; color:#1D4ED8;">user</span></td>
+          <td><span class="badge" style="background:#DCFCE7; color:#15803D;">active</span></td>
+          <td style="color:#64748B; font-size:13px;">2026/01/30</td>
+          <td style="text-align:center;">
+            <a href="s020.html" class="btn-sm" style="background:#EFF6FF; color:#2563EB;">管理</a>
+          </td>
+        </tr>
+        <tr>
+          <td style="color:#94A3B8; font-size:12px;">#006</td>
+          <td>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <div style="width:28px; height:28px; border-radius:50%; background:#DC2626; display:flex; align-items:center; justify-content:center; color:#fff; font-size:11px; font-weight:700; flex-shrink:0;">伊</div>
+              伊藤健太
+            </div>
+          </td>
+          <td style="color:#64748B;">ito@example.com</td>
+          <td><span class="badge" style="background:#DBEAFE; color:#1D4ED8;">user</span></td>
+          <td><span class="badge" style="background:#FEE2E2; color:#B91C1C;">suspended</span></td>
+          <td style="color:#64748B; font-size:13px;">2026/03/05</td>
+          <td style="text-align:center;">
+            <a href="s020.html" class="btn-sm" style="background:#EFF6FF; color:#2563EB;">管理</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="position:fixed; top:68px; right:16px; background:#6D28D9; color:#fff; padding:6px 12px; border-radius:20px; font-size:12px; font-weight:600;">
+    状態: 通常（6件表示）
+  </div>
+
+  <div style="position:fixed; bottom:16px; right:16px; background:#0F172A; color:#fff; padding:10px 14px; border-radius:8px; font-size:11px; line-height:1.8; z-index:200;">
+    <div style="font-weight:600; margin-bottom:4px;">Tab移動順序</div>
+    <div>① ユーザー管理タブ（管理者ナビ）</div>
+    <div>② コメント管理タブ（管理者ナビ）</div>
+    <div>③ 一般画面に戻る</div>
+    <div>④ ログアウト</div>
+    <div>⑤ ユーザー名フィルター</div>
+    <div>⑥ 権限フィルター（select）</div>
+    <div>⑦ 状態フィルター（select）</div>
+    <div>⑧〜⑬ 管理ボタン × 6（各行）</div>
+  </div>
+</body>
+</html>

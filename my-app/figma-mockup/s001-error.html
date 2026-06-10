@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1440">
+  <title>S-001 ログイン（エラー）</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Hiragino Sans, sans-serif; background: #F8FAFC; color: #0F172A; min-width: 1440px; min-height: 100vh; display: flex; align-items: center; justify-content: center; font-size: 14px; line-height: 1.5; }
+    .card { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); width: 100%; max-width: 400px; padding: 40px; }
+    label { display: block; font-size: 13px; font-weight: 500; color: #374151; margin-bottom: 5px; }
+    .input { width: 100%; border: 1px solid #E2E8F0; border-radius: 6px; padding: 8px 12px; font-size: 14px; color: #0F172A; background: #fff; outline: none; font-family: inherit; }
+    .input.error { border-color: #DC2626; box-shadow: 0 0 0 3px rgba(220,38,38,0.1); background: #FEF2F2; }
+    .annotation { font-size: 11px; color: #94A3B8; margin-top: 3px; font-family: 'SFMono-Regular', Consolas, monospace; }
+    .field-err { font-size: 12px; color: #DC2626; margin-top: 4px; display: flex; align-items: center; gap: 4px; }
+    .field { display: flex; flex-direction: column; margin-bottom: 16px; }
+    .btn-primary { width: 100%; background: #2563EB; color: #fff; border: none; border-radius: 6px; padding: 9px; font-size: 14px; font-weight: 500; cursor: pointer; margin-top: 8px; }
+    .link-row { display: flex; flex-direction: column; gap: 8px; text-align: center; margin-top: 16px; }
+    .link-row a { font-size: 13px; color: #2563EB; text-decoration: none; }
+    .rel { position: relative; }
+    .tab-num { position: absolute; top: -9px; left: -9px; width: 18px; height: 18px; border-radius: 50%; background: #2563EB; color: #fff; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; z-index: 10; }
+    .eye-btn { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #94A3B8; display: flex; }
+    /* Server error banner */
+    .err-banner { background: #FEF2F2; border: 1px solid #FECACA; border-radius: 8px; padding: 10px 14px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; font-size: 13px; color: #DC2626; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1 style="font-size:22px; font-weight:600; color:#0F172A; margin-bottom:24px;">ログイン</h1>
+
+    <!-- Server error banner -->
+    <div class="err-banner">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="flex-shrink:0;">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"/>
+      </svg>
+      メールアドレスまたはパスワードが正しくありません
+    </div>
+
+    <form>
+      <!-- ① Email (error) -->
+      <div class="field">
+        <label>メールアドレス <span style="color:#DC2626;">*</span></label>
+        <div class="rel">
+          <span class="tab-num">1</span>
+          <input type="email" value="wrong@example" class="input error">
+        </div>
+        <p class="field-err">
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"/></svg>
+          メールアドレスを入力してください
+        </p>
+        <p class="annotation">type: email | 必須 | 形式検証（RFC5322）</p>
+      </div>
+
+      <!-- ② Password (error) -->
+      <div class="field">
+        <label>パスワード <span style="color:#DC2626;">*</span></label>
+        <div class="rel">
+          <span class="tab-num">2</span>
+          <input type="password" value="" class="input error" style="padding-right:36px;" placeholder="••••••••">
+          <button type="button" class="eye-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+            </svg>
+          </button>
+        </div>
+        <p class="field-err">
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"/></svg>
+          パスワードを入力してください
+        </p>
+        <p class="annotation">type: password | 必須 | 最小8文字</p>
+      </div>
+
+      <!-- ③ Submit -->
+      <div class="rel" style="margin-top:8px;">
+        <span class="tab-num">3</span>
+        <button type="submit" class="btn-primary">ログイン</button>
+      </div>
+    </form>
+
+    <hr style="border:none; border-top:1px solid #E2E8F0; margin:20px 0;">
+    <div class="link-row">
+      <a href="s003.html">パスワードをお忘れの方</a>
+      <a href="s004.html">アカウントを作成する</a>
+    </div>
+  </div>
+
+  <div style="position:fixed; top:16px; right:16px; background:#B91C1C; color:#fff; padding:6px 12px; border-radius:20px; font-size:12px; font-weight:600;">
+    状態: フィールドエラー + サーバーエラー
+  </div>
+</body>
+</html>

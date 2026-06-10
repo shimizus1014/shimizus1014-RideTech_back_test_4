@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1440">
+  <title>S-001 ログイン（通常）</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Hiragino Sans, sans-serif;
+      background: #F8FAFC; color: #0F172A;
+      min-width: 1440px; min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; line-height: 1.5;
+    }
+    .card { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06); width: 100%; max-width: 400px; padding: 40px; }
+    label { display: block; font-size: 13px; font-weight: 500; color: #374151; margin-bottom: 5px; }
+    .input { width: 100%; border: 1px solid #E2E8F0; border-radius: 6px; padding: 8px 12px; font-size: 14px; color: #0F172A; background: #fff; outline: none; font-family: inherit; }
+    .input:focus { border-color: #2563EB; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+    .annotation { font-size: 11px; color: #94A3B8; margin-top: 3px; font-family: 'SFMono-Regular', Consolas, monospace; }
+    .field { display: flex; flex-direction: column; gap: 0; margin-bottom: 16px; }
+    .btn-primary { width: 100%; background: #2563EB; color: #fff; border: none; border-radius: 6px; padding: 9px; font-size: 14px; font-weight: 500; cursor: pointer; margin-top: 8px; }
+    .link-row { display: flex; flex-direction: column; gap: 8px; text-align: center; margin-top: 16px; }
+    .link-row a { font-size: 13px; color: #2563EB; text-decoration: none; }
+    .rel { position: relative; }
+    .tab-num { position: absolute; top: -9px; left: -9px; width: 18px; height: 18px; border-radius: 50%; background: #2563EB; color: #fff; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; z-index: 10; }
+    .eye-btn { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #94A3B8; display: flex; }
+    .divider { border: none; border-top: 1px solid #E2E8F0; margin: 20px 0; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1 style="font-size:22px; font-weight:600; color:#0F172A; margin-bottom:24px;">ログイン</h1>
+
+    <form>
+      <!-- ① Email -->
+      <div class="field">
+        <label>メールアドレス <span style="color:#DC2626;">*</span></label>
+        <div class="rel">
+          <span class="tab-num">1</span>
+          <input type="email" placeholder="example@email.com" class="input">
+        </div>
+        <p class="annotation">type: email | 必須 | 形式検証（RFC5322）</p>
+      </div>
+
+      <!-- ② Password -->
+      <div class="field">
+        <label>パスワード <span style="color:#DC2626;">*</span></label>
+        <div class="rel">
+          <span class="tab-num">2</span>
+          <input type="password" placeholder="••••••••" class="input" style="padding-right:36px;">
+          <button type="button" class="eye-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+            </svg>
+          </button>
+        </div>
+        <p class="annotation">type: password | 必須 | 最小8文字</p>
+      </div>
+
+      <!-- ③ Submit -->
+      <div class="rel" style="margin-top:8px;">
+        <span class="tab-num">3</span>
+        <button type="submit" class="btn-primary">ログイン</button>
+      </div>
+    </form>
+
+    <hr class="divider">
+
+    <div class="link-row">
+      <div class="rel" style="display:inline-block; margin:0 auto;">
+        <span class="tab-num">4</span>
+        <a href="s003.html">パスワードをお忘れの方</a>
+      </div>
+      <div class="rel" style="display:inline-block; margin:0 auto;">
+        <span class="tab-num">5</span>
+        <a href="s004.html">アカウントを作成する</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab legend -->
+  <div style="position:fixed; bottom:16px; right:16px; background:#0F172A; color:#fff; padding:10px 14px; border-radius:8px; font-size:11px; line-height:1.8;">
+    <div style="font-weight:600; margin-bottom:4px;">Tab移動順序</div>
+    <div>① メールアドレス</div>
+    <div>② パスワード（+ 表示切替）</div>
+    <div>③ ログインボタン</div>
+    <div>④ PW再発行リンク</div>
+    <div>⑤ 新規登録リンク</div>
+  </div>
+</body>
+</html>

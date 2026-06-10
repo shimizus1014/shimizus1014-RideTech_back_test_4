@@ -1,0 +1,72 @@
+---
+description: FastAPI バックエンドの実装規約
+globs: my-app/backend/**/*.py
+alwaysApply: false
+---
+
+# バックエンド実装規約（FastAPI + SQLAlchemy）
+
+## ファイル構成
+```
+backend/
+  main.py       APIエンドポイント定義（唯一のルーターファイル）
+  models.py     SQLAlchemy ORMモデル
+  schemas.py    Pydantic スキーマ（リクエスト/レスポンス）
+  auth.py       JWT認証・パスワードハッシュ
+  database.py   DB接続・セッション管理
+```
+
+## エンドポイント実装パターン
+
+### 認証が必要なエンドポイント
+```python
+@app.get("/some-resource")
+def get_resource(
+    current_user: models.User = Depends(auth.get_current_user),
+    db: Session = Depends(get_db),
+):
+    ...
+```
+
+### 管理者チェック
+```python
+if not current_user.is_admin:
+    raise HTTPException(status_code=403, detail="管理者権限が必要です")
+```
+
+### エラーレスポンス
+- detail は必ず日本語で記述する
+- 404: `"〇〇が見つかりません"`
+- 400: `"〇〇は既に登録されています"` / `"〇〇は使用されています"`
+- 401: `"認証が必要です"` / `"無効なトークンです"`
+- 403: `"管理者権限が必要です"`
+
+## スキーマ規約
+- レスポンス用: `〇〇Out`（例: `UserOut`, `TaskOut`）
+- リクエスト用: `〇〇Create` / `〇〇Update`
+- `model_config = {"from_attributes": True}` を必ず Output モデルに付与
+- Update モデルはすべてのフィールドを `Optional` にする
+
+## DB操作
+```python
+# 取得
+item = db.query(models.Model).filter(models.Model.id == id).first()
+if not item:
+    raise HTTPException(status_code=404, detail="...")
+
+# 作成
+item = models.Model(**data)
+db.add(item)
+db.commit()
+db.refresh(item)
+return item
+
+# 削除
+db.delete(item)
+db.commit()
+```
+
+## 命名規則
+- エンドポイント関数名: `動詞_リソース名`（例: `get_tasks`, `create_task`, `delete_user`）
+- パス: `/リソース名複数形` または `/リソース名複数形/{id}`
+- セクションコメント: `# ─── セクション名 ─────────────────────` で区切る

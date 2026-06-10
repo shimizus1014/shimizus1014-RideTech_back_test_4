@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1440">
+  <title>S-009 学習計画 編集（バリデエラー）</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Hiragino Sans, sans-serif; background: #F8FAFC; color: #0F172A; min-width: 1440px; font-size: 14px; line-height: 1.5; }
+    .nav-link { display: flex; align-items: center; gap: 8px; padding: 10px 16px; text-decoration: none; font-size: 14px; color: #64748B; }
+    .nav-link.active { color: #2563EB; font-weight: 500; background: #EFF6FF; border-right: 2px solid #2563EB; }
+    label { display: block; font-size: 13px; font-weight: 500; color: #374151; margin-bottom: 6px; }
+    .required::after { content: ' *'; color: #DC2626; }
+    input[type="text"], input[type="date"], textarea {
+      width: 100%; padding: 8px 12px; border: 1px solid #E2E8F0; border-radius: 6px;
+      font-size: 14px; color: #0F172A; background: #fff; outline: none; font-family: inherit;
+    }
+    input.error, textarea.error { border-color: #DC2626; box-shadow: 0 0 0 3px rgba(220,38,38,0.1); }
+    .error-msg { display: flex; align-items: center; gap: 4px; font-size: 12px; color: #DC2626; margin-top: 4px; }
+    .hint { font-size: 12px; color: #64748B; margin-top: 4px; }
+    .toggle { width: 44px; height: 24px; border-radius: 12px; background: #2563EB; position: relative; cursor: pointer; flex-shrink: 0; }
+    .toggle::after { content: ''; position: absolute; width: 18px; height: 18px; border-radius: 50%; background: #fff; top: 3px; left: 23px; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+    .btn-primary { display: inline-flex; align-items: center; gap: 6px; background: #2563EB; color: #fff; border: none; padding: 9px 20px; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer; }
+    .btn-secondary { display: inline-flex; align-items: center; background: #fff; color: #374151; border: 1px solid #E2E8F0; padding: 9px 20px; border-radius: 6px; font-size: 14px; cursor: pointer; }
+    .rel { position: relative; }
+    .tab-num { position: absolute; top: -9px; left: -9px; width: 18px; height: 18px; border-radius: 50%; background: #2563EB; color: #fff; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; z-index: 10; }
+    .icon-upload-preview {
+      width: 88px; height: 88px; border-radius: 16px; border: 2px solid #E2E8F0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 36px; background: #FEF3C7; cursor: pointer; position: relative;
+    }
+    .icon-change-overlay {
+      position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.5);
+      color: #fff; font-size: 11px; text-align: center; padding: 4px;
+      border-radius: 0 0 14px 14px;
+    }
+    /* Error banner */
+    .error-banner {
+      background: #FEF2F2; border: 1px solid #FECACA; border-radius: 8px;
+      padding: 12px 16px; margin-bottom: 24px;
+      display: flex; align-items: flex-start; gap: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div style="display:flex; min-height:100vh;">
+
+    <!-- Sidebar -->
+    <aside style="width:208px; min-width:208px; background:#fff; border-right:1px solid #E2E8F0; display:flex; flex-direction:column;">
+      <div style="display:flex; align-items:center; gap:8px; padding:16px; border-bottom:1px solid #E2E8F0;">
+        <div style="width:32px; height:32px; border-radius:50%; background:#2563EB; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+          </svg>
+        </div>
+        <span style="font-size:13px; font-weight:600; color:#0F172A;">学習管理システム</span>
+      </div>
+      <nav style="flex:1; padding:8px 0;">
+        <a href="index.html" class="nav-link">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+          </svg>
+          ダッシュボード
+        </a>
+        <a href="s008.html" class="nav-link active">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+          </svg>
+          学習計画一覧
+        </a>
+        <a href="#" class="nav-link">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+          ユーザー検索
+        </a>
+      </nav>
+      <div style="padding:12px 16px; border-top:1px solid #E2E8F0;">
+        <button style="font-size:12px; color:#64748B; background:none; border:none; cursor:pointer;">ログアウト</button>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main style="flex:1; padding:32px; min-width:0;">
+
+      <!-- Page Title -->
+      <div style="margin-bottom:24px;">
+        <h1 style="font-size:20px; font-weight:600; color:#0F172A;">学習計画を編集</h1>
+        <p style="font-size:14px; color:#64748B; margin-top:4px;">JavaScript基礎</p>
+      </div>
+
+      <!-- Form Card -->
+      <div style="background:#fff; border:1px solid #E2E8F0; border-radius:10px; padding:32px; max-width:720px;">
+
+        <!-- Error Banner -->
+        <div class="error-banner">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#DC2626" stroke-width="2" style="flex-shrink:0; margin-top:1px;">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/>
+          </svg>
+          <div>
+            <p style="font-size:13px; font-weight:600; color:#DC2626;">入力エラーがあります</p>
+            <p style="font-size:12px; color:#DC2626;">タイトルを入力してください</p>
+          </div>
+        </div>
+
+        <!-- ① Icon Upload (with preview) -->
+        <div style="margin-bottom:24px;">
+          <label>アイコン</label>
+          <div class="rel" style="display:inline-block;">
+            <span class="tab-num">1</span>
+            <div class="icon-upload-preview">
+              📘
+              <div class="icon-change-overlay">変更</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ② Title (error state) -->
+        <div style="margin-bottom:20px;">
+          <label class="required">タイトル</label>
+          <div class="rel">
+            <span class="tab-num">2</span>
+            <input type="text" class="error" value="" placeholder="例: JavaScript基礎">
+          </div>
+          <div class="error-msg">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"/>
+            </svg>
+            タイトルは必須です
+          </div>
+        </div>
+
+        <!-- ③ Description (prefilled) -->
+        <div style="margin-bottom:20px;">
+          <label>説明</label>
+          <div class="rel">
+            <span class="tab-num">3</span>
+            <textarea>JavaScriptの基礎を学ぶための計画です。変数・関数・非同期処理など基本概念をカバーします。</textarea>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-top:4px;">
+            <p class="hint">任意 / 最大1000文字</p>
+            <p class="hint" style="color:#94A3B8;">65 / 1000</p>
+          </div>
+        </div>
+
+        <!-- ④ Target Date (prefilled) -->
+        <div style="margin-bottom:20px;">
+          <label>目標日</label>
+          <div class="rel" style="width:200px;">
+            <span class="tab-num">4</span>
+            <input type="date" value="2026-06-30">
+          </div>
+        </div>
+
+        <!-- ⑤ Public Toggle (ON = 公開) -->
+        <div style="margin-bottom:20px;">
+          <label>公開設定</label>
+          <div style="display:flex; align-items:center; gap:12px;" class="rel">
+            <span class="tab-num">5</span>
+            <div class="toggle on"></div>
+            <div>
+              <span style="font-size:14px; font-weight:500; color:#0F172A;">公開</span>
+              <p class="hint">他のユーザーに表示されます</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ⑥ 計画ステータス（NEW） -->
+        <div style="margin-bottom:32px;">
+          <label class="required">計画ステータス
+            <span style="font-size:11px; font-weight:400; color:#94A3B8; margin-left:4px;">（DB: learning_plans.status）</span>
+          </label>
+          <div class="rel" style="max-width:220px;">
+            <span class="tab-num">6</span>
+            <select style="width:100%; padding:8px 12px; border:1px solid #E2E8F0; border-radius:6px; font-size:14px; color:#0F172A; background:#fff; outline:none; font-family:inherit; cursor:pointer;">
+              <option value="active" selected>進行中（active）</option>
+              <option value="completed">完了（completed）</option>
+              <option value="archived">アーカイブ（archived）</option>
+            </select>
+          </div>
+          <p class="hint">必須 / 現在の計画状態を選択</p>
+          <div style="display:flex; gap:10px; margin-top:8px; flex-wrap:wrap;">
+            <span style="font-size:11px; background:#DBEAFE; color:#1D4ED8; padding:2px 8px; border-radius:4px; font-weight:500;">進行中</span>
+            <span style="font-size:11px; color:#64748B;">学習中・継続中の計画</span>
+            <span style="font-size:11px; background:#DCFCE7; color:#15803D; padding:2px 8px; border-radius:4px; font-weight:500; margin-left:8px;">完了</span>
+            <span style="font-size:11px; color:#64748B;">すべてのタスクが完了</span>
+            <span style="font-size:11px; background:#F1F5F9; color:#64748B; padding:2px 8px; border-radius:4px; font-weight:500; margin-left:8px;">アーカイブ</span>
+            <span style="font-size:11px; color:#64748B;">非アクティブ・保留中</span>
+          </div>
+        </div>
+
+        <!-- Divider -->
+        <div style="border-top:1px solid #E2E8F0; margin-bottom:24px;"></div>
+
+        <!-- Buttons -->
+        <div style="display:flex; gap:12px; justify-content:flex-end;">
+          <div class="rel"><span class="tab-num">7</span><button class="btn-secondary">キャンセル</button></div>
+          <div class="rel"><span class="tab-num">8</span><button class="btn-primary">保存する</button></div>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+  <div style="position:fixed; top:16px; right:16px; background:#B91C1C; color:#fff; padding:6px 12px; border-radius:20px; font-size:12px; font-weight:600;">
+    状態: 編集 + バリデエラー
+  </div>
+</body>
+</html>

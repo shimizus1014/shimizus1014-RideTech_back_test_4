@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1440">
+  <title>S-019 ユーザー一覧（データなし）</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #F8FAFC; color: #0F172A; min-width: 1440px; font-size: 14px; line-height: 1.5; }
+    .admin-nav { background: #1E293B; color: #fff; padding: 0 32px; display: flex; align-items: center; gap: 0; height: 52px; position: sticky; top: 0; z-index: 50; }
+    .admin-tab { display: flex; align-items: center; height: 52px; padding: 0 20px; font-size: 14px; text-decoration: none; color: #94A3B8; border-bottom: 3px solid transparent; }
+    .admin-tab.active { color: #fff; border-bottom-color: #2563EB; }
+    .input { border: 1px solid #E2E8F0; border-radius: 6px; padding: 8px 12px 8px 34px; font-size: 14px; color: #0F172A; background: #fff; outline: none; font-family: inherit; width: 260px; }
+    table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; border: 1px solid #E2E8F0; }
+    th { background: #F8FAFC; font-size: 12px; font-weight: 600; color: #64748B; padding: 10px 16px; text-align: left; border-bottom: 1px solid #E2E8F0; white-space: nowrap; }
+  </style>
+</head>
+<body>
+
+  <nav class="admin-nav">
+    <div style="display:flex; align-items:center; gap:8px; margin-right:24px;">
+      <div style="width:24px; height:24px; border-radius:4px; background:#2563EB; display:flex; align-items:center; justify-content:center;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+      </div>
+      <span style="font-size:14px; font-weight:700; color:#fff;">管理者パネル</span>
+    </div>
+    <div style="width:1px; height:24px; background:#334155; margin-right:8px;"></div>
+    <a href="s019.html" class="admin-tab active">ユーザー管理</a>
+    <a href="s021.html" class="admin-tab">コメント管理</a>
+    <div style="margin-left:auto; display:flex; align-items:center; gap:20px;">
+      <a href="s007.html" style="font-size:13px; color:#94A3B8; text-decoration:none;">一般画面に戻る</a>
+      <button style="font-size:13px; color:#94A3B8; background:none; border:none; cursor:pointer;">ログアウト</button>
+    </div>
+  </nav>
+
+  <div style="padding:32px 40px;">
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:24px;">
+      <div>
+        <h1 style="font-size:20px; font-weight:700; color:#0F172A; margin-bottom:4px;">ユーザー管理</h1>
+        <p style="font-size:13px; color:#64748B;">登録ユーザーの権限・状態を管理します。</p>
+      </div>
+      <span style="font-size:13px; color:#64748B;">全 0 件</span>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+      <div style="position:relative;">
+        <svg style="position:absolute; left:10px; top:50%; transform:translateY(-50%); pointer-events:none;" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#94A3B8" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <input type="search" class="input" placeholder="ユーザー名で絞り込み">
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>ユーザー名</th>
+          <th>メールアドレス</th>
+          <th>権限</th>
+          <th>状態</th>
+          <th>登録日時</th>
+          <th style="text-align:center;">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="7">
+            <div style="padding:48px 0; display:flex; flex-direction:column; align-items:center; text-align:center;">
+              <div style="width:56px; height:56px; border-radius:50%; background:#F1F5F9; display:flex; align-items:center; justify-content:center; margin-bottom:12px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="#94A3B8" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/></svg>
+              </div>
+              <p style="font-size:15px; font-weight:600; color:#0F172A; margin-bottom:4px;">ユーザーが登録されていません</p>
+              <p style="font-size:13px; color:#64748B;">条件に一致するユーザーが見つかりませんでした。</p>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="position:fixed; top:68px; right:16px; background:#D97706; color:#fff; padding:6px 12px; border-radius:20px; font-size:12px; font-weight:600;">
+    状態: データなし（EmptyState）
+  </div>
+</body>
+</html>

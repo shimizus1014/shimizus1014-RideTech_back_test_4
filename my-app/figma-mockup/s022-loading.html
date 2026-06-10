@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1440">
+  <title>S-022 マイプロフィール（ロード中）</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Hiragino Sans, sans-serif; background: #F8FAFC; color: #0F172A; min-width: 1440px; font-size: 14px; line-height: 1.5; }
+    .nav-link { display: flex; align-items: center; gap: 8px; padding: 10px 16px; text-decoration: none; font-size: 14px; color: #64748B; }
+    .section { background: #fff; border: 1px solid #E2E8F0; border-radius: 10px; padding: 24px; margin-bottom: 16px; }
+    /* Skeleton */
+    @keyframes shimmer {
+      0%   { background-position: -600px 0; }
+      100% { background-position:  600px 0; }
+    }
+    .skel {
+      background: linear-gradient(90deg, #E2E8F0 25%, #F1F5F9 50%, #E2E8F0 75%);
+      background-size: 600px 100%;
+      animation: shimmer 1.4s infinite linear;
+      border-radius: 4px;
+    }
+    .skel-circle { border-radius: 50% !important; }
+  </style>
+</head>
+<body>
+  <div style="display:flex; min-height:100vh;">
+
+    <!-- Sidebar（通常表示） -->
+    <aside style="width:208px; min-width:208px; background:#fff; border-right:1px solid #E2E8F0; display:flex; flex-direction:column;">
+      <div style="display:flex; align-items:center; gap:8px; padding:16px; border-bottom:1px solid #E2E8F0;">
+        <div style="width:32px; height:32px; border-radius:50%; background:#2563EB; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+        </div>
+        <span style="font-size:13px; font-weight:600; color:#0F172A;">学習管理システム</span>
+      </div>
+      <nav style="flex:1; padding:8px 0;">
+        <a href="s007.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>ダッシュボード</a>
+        <a href="s008.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>学習計画一覧</a>
+        <a href="s015.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>ユーザー検索</a>
+      </nav>
+      <div style="padding:12px 16px; border-top:1px solid #E2E8F0;"><button style="font-size:12px; color:#64748B; background:none; border:none; cursor:pointer;">ログアウト</button></div>
+    </aside>
+
+    <!-- Main -->
+    <main style="flex:1; padding:32px; min-width:0; max-width:860px;">
+      <!-- ページタイトルスケルトン -->
+      <div class="skel" style="height:24px; width:160px; margin-bottom:24px;"></div>
+
+      <!-- プロフィールヘッダー スケルトン -->
+      <div class="section" style="display:flex; align-items:flex-start; gap:24px;">
+        <div class="skel skel-circle" style="width:80px; height:80px; flex-shrink:0;"></div>
+        <div style="flex:1; display:flex; flex-direction:column; gap:10px;">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div class="skel" style="height:22px; width:160px;"></div>
+            <div class="skel" style="height:30px; width:80px; border-radius:6px;"></div>
+          </div>
+          <div class="skel" style="height:14px; width:100%;"></div>
+          <div class="skel" style="height:14px; width:80%;"></div>
+          <div style="display:flex; gap:16px; margin-top:4px;">
+            <div class="skel" style="height:13px; width:100px;"></div>
+            <div class="skel" style="height:13px; width:120px;"></div>
+            <div class="skel" style="height:13px; width:100px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 公開学習計画 スケルトン -->
+      <div class="section">
+        <div style="display:flex; justify-content:space-between; margin-bottom:16px;">
+          <div class="skel" style="height:18px; width:120px;"></div>
+          <div class="skel" style="height:14px; width:80px;"></div>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:12px;">
+          <!-- カード×4 -->
+          <div style="border:1px solid #E2E8F0; border-radius:8px; padding:16px; display:flex; flex-direction:column; gap:10px;">
+            <div style="display:flex; justify-content:space-between;"><div class="skel" style="height:16px; width:140px;"></div><div class="skel" style="height:20px; width:48px; border-radius:12px;"></div></div>
+            <div class="skel" style="height:5px; width:100%; border-radius:4px;"></div>
+            <div style="display:flex; justify-content:space-between;"><div class="skel" style="height:12px; width:32px;"></div><div class="skel" style="height:12px; width:60px;"></div></div>
+          </div>
+          <div style="border:1px solid #E2E8F0; border-radius:8px; padding:16px; display:flex; flex-direction:column; gap:10px;">
+            <div style="display:flex; justify-content:space-between;"><div class="skel" style="height:16px; width:120px;"></div><div class="skel" style="height:20px; width:48px; border-radius:12px;"></div></div>
+            <div class="skel" style="height:5px; width:100%; border-radius:4px;"></div>
+            <div style="display:flex; justify-content:space-between;"><div class="skel" style="height:12px; width:32px;"></div><div class="skel" style="height:12px; width:60px;"></div></div>
+          </div>
+          <div style="border:1px solid #E2E8F0; border-radius:8px; padding:16px; display:flex; flex-direction:column; gap:10px;">
+            <div style="display:flex; justify-content:space-between;"><div class="skel" style="height:16px; width:100px;"></div><div class="skel" style="height:20px; width:48px; border-radius:12px;"></div></div>
+            <div class="skel" style="height:5px; width:100%; border-radius:4px;"></div>
+            <div style="display:flex; justify-content:space-between;"><div class="skel" style="height:12px; width:32px;"></div><div class="skel" style="height:12px; width:60px;"></div></div>
+          </div>
+          <div style="border:1px solid #E2E8F0; border-radius:8px; padding:16px; display:flex; flex-direction:column; gap:10px;">
+            <div style="display:flex; justify-content:space-between;"><div class="skel" style="height:16px; width:130px;"></div><div class="skel" style="height:20px; width:48px; border-radius:12px;"></div></div>
+            <div class="skel" style="height:5px; width:100%; border-radius:4px;"></div>
+            <div style="display:flex; justify-content:space-between;"><div class="skel" style="height:12px; width:32px;"></div><div class="skel" style="height:12px; width:60px;"></div></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div style="position:fixed; top:16px; right:16px; background:#64748B; color:#fff; padding:6px 12px; border-radius:20px; font-size:12px; font-weight:600;">
+    状態: ロード中（スケルトン）
+  </div>
+</body>
+</html>

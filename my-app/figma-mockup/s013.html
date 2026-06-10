@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1440">
+  <title>S-013 学習計画削除確認モーダル（通常）</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #F8FAFC; color: #0F172A; min-width: 1440px; min-height: 100vh; font-size: 14px; line-height: 1.5; overflow: hidden; }
+    .nav-link { display: flex; align-items: center; gap: 8px; padding: 10px 16px; text-decoration: none; font-size: 14px; color: #64748B; }
+    .nav-link.active { color: #2563EB; font-weight: 500; background: #EFF6FF; border-right: 2px solid #2563EB; }
+    .badge { display: inline-flex; align-items: center; font-size: 12px; font-weight: 500; padding: 3px 10px; border-radius: 12px; }
+    .progress-track { background: #E2E8F0; border-radius: 4px; height: 6px; }
+    .progress-fill { height: 6px; border-radius: 4px; background: #2563EB; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== 背景：S-010 学習計画詳細（blur） ===== -->
+  <div style="position:fixed; inset:0; overflow:hidden; filter:blur(3px); pointer-events:none; user-select:none;">
+    <div style="display:flex; min-height:100vh;">
+      <!-- Sidebar -->
+      <aside style="width:208px; min-width:208px; background:#fff; border-right:1px solid #E2E8F0; display:flex; flex-direction:column;">
+        <div style="display:flex; align-items:center; gap:8px; padding:16px; border-bottom:1px solid #E2E8F0;">
+          <div style="width:32px; height:32px; border-radius:50%; background:#2563EB; flex-shrink:0;"></div>
+          <span style="font-size:13px; font-weight:600;">学習管理システム</span>
+        </div>
+        <nav style="flex:1; padding:8px 0;">
+          <a class="nav-link" href="#">ダッシュボード</a>
+          <a class="nav-link active" href="#">学習計画一覧</a>
+          <a class="nav-link" href="#">ユーザー検索</a>
+        </nav>
+      </aside>
+      <!-- Main content (S-010 simplified) -->
+      <main style="flex:1; padding:32px;">
+        <div style="font-size:13px; color:#64748B; margin-bottom:16px;">学習計画一覧 › JavaScript基礎</div>
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:24px;">
+          <div>
+            <h1 style="font-size:22px; font-weight:700; margin-bottom:6px;">JavaScript基礎</h1>
+            <span class="badge" style="background:#DBEAFE; color:#1D4ED8;">進行中</span>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <button style="background:#fff; border:1px solid #E2E8F0; border-radius:6px; padding:8px 16px; font-size:14px; cursor:pointer;">編集</button>
+            <button style="background:#FEF2F2; color:#DC2626; border:1px solid #FECACA; border-radius:6px; padding:8px 16px; font-size:14px; cursor:pointer; font-weight:500;">削除</button>
+          </div>
+        </div>
+        <!-- Progress -->
+        <div style="background:#fff; border:1px solid #E2E8F0; border-radius:10px; padding:20px; margin-bottom:16px;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:13px; color:#64748B;">
+            <span>進捗</span><span>65%</span>
+          </div>
+          <div class="progress-track"><div class="progress-fill" style="width:65%;"></div></div>
+        </div>
+        <!-- Task list -->
+        <div style="background:#fff; border:1px solid #E2E8F0; border-radius:10px; padding:20px;">
+          <h2 style="font-size:15px; font-weight:600; margin-bottom:14px;">タスク一覧</h2>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <div style="border:1px solid #E2E8F0; border-radius:6px; padding:10px 14px; display:flex; justify-content:space-between;">
+              <span>変数とデータ型の理解</span>
+              <span class="badge" style="background:#DCFCE7; color:#15803D;">完了</span>
+            </div>
+            <div style="border:1px solid #E2E8F0; border-radius:6px; padding:10px 14px; display:flex; justify-content:space-between;">
+              <span>関数と高階関数</span>
+              <span class="badge" style="background:#DBEAFE; color:#1D4ED8;">学習中</span>
+            </div>
+            <div style="border:1px solid #E2E8F0; border-radius:6px; padding:10px 14px; display:flex; justify-content:space-between;">
+              <span>非同期処理（Promise / async）</span>
+              <span class="badge" style="background:#F1F5F9; color:#64748B;">未着手</span>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- ===== オーバーレイ ===== -->
+  <div style="position:fixed; inset:0; background:rgba(15,23,42,0.55); display:flex; align-items:center; justify-content:center;">
+
+    <!-- ===== モーダル ===== -->
+    <div role="dialog" aria-modal="true" aria-labelledby="modal-title"
+         style="background:#fff; border-radius:12px; box-shadow:0 20px 60px rgba(0,0,0,0.25); width:100%; max-width:420px; padding:36px 32px; position:relative;">
+
+      <!-- 警告アイコン -->
+      <div style="width:56px; height:56px; border-radius:50%; background:#FEF2F2; display:flex; align-items:center; justify-content:center; margin: 0 auto 20px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="#DC2626" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/>
+        </svg>
+      </div>
+
+      <!-- タイトル -->
+      <h2 id="modal-title" style="font-size:18px; font-weight:700; color:#0F172A; text-align:center; margin-bottom:10px;">
+        学習計画を削除しますか？
+      </h2>
+
+      <!-- 説明 -->
+      <p style="font-size:14px; color:#64748B; text-align:center; line-height:1.7; margin-bottom:8px;">
+        この操作は取り消せません。<br>
+        関連するタスクもすべて削除されます。
+      </p>
+
+      <!-- 削除対象の確認表示 -->
+      <div style="background:#FEF2F2; border:1px solid #FECACA; border-radius:6px; padding:10px 14px; margin-bottom:24px; text-align:center;">
+        <span style="font-size:13px; font-weight:600; color:#DC2626;">「JavaScript基礎」</span>
+        <span style="font-size:13px; color:#B91C1C;">（タスク3件）</span>
+      </div>
+
+      <!-- ボタン -->
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <button style="width:100%; background:#DC2626; color:#fff; border:none; border-radius:6px; padding:10px; font-size:14px; font-weight:600; cursor:pointer; font-family:inherit;">
+          削除する
+        </button>
+        <button style="width:100%; background:#fff; color:#374151; border:1px solid #E2E8F0; border-radius:6px; padding:10px; font-size:14px; cursor:pointer; font-family:inherit;">
+          キャンセル
+        </button>
+      </div>
+
+      <!-- Tab annotation -->
+      <div style="position:absolute; bottom:-52px; left:50%; transform:translateX(-50%); white-space:nowrap; background:#0F172A; color:#fff; padding:8px 14px; border-radius:8px; font-size:11px; line-height:1.8;">
+        <span style="font-weight:600;">Tab移動順序　</span>① 削除するボタン　② キャンセルボタン
+      </div>
+    </div>
+  </div>
+
+  <!-- 状態バッジ -->
+  <div style="position:fixed; top:16px; right:16px; background:#DC2626; color:#fff; padding:6px 12px; border-radius:20px; font-size:12px; font-weight:600; z-index:100;">
+    状態: 通常
+  </div>
+</body>
+</html>

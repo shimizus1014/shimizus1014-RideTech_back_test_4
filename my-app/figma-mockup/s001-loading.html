@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1440">
+  <title>S-001 ログイン（送信中）</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Hiragino Sans, sans-serif; background: #F8FAFC; color: #0F172A; min-width: 1440px; min-height: 100vh; display: flex; align-items: center; justify-content: center; font-size: 14px; line-height: 1.5; }
+    .card { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); width: 100%; max-width: 400px; padding: 40px; }
+    label { display: block; font-size: 13px; font-weight: 500; color: #374151; margin-bottom: 5px; }
+    .input { width: 100%; border: 1px solid #E2E8F0; border-radius: 6px; padding: 8px 12px; font-size: 14px; color: #64748B; background: #F8FAFC; outline: none; font-family: inherit; }
+    .annotation { font-size: 11px; color: #94A3B8; margin-top: 3px; font-family: 'SFMono-Regular', Consolas, monospace; }
+    .field { display: flex; flex-direction: column; margin-bottom: 16px; }
+    .btn-loading { width: 100%; background: #93C5FD; color: #fff; border: none; border-radius: 6px; padding: 9px; font-size: 14px; font-weight: 500; cursor: not-allowed; margin-top: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; }
+    .link-row { display: flex; flex-direction: column; gap: 8px; text-align: center; margin-top: 16px; }
+    .link-row a { font-size: 13px; color: #94A3B8; text-decoration: none; pointer-events: none; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1 style="font-size:22px; font-weight:600; color:#0F172A; margin-bottom:24px;">ログイン</h1>
+
+    <form>
+      <div class="field">
+        <label>メールアドレス <span style="color:#DC2626;">*</span></label>
+        <input type="email" value="user@example.com" class="input" disabled>
+        <p class="annotation">type: email | 必須 | 形式検証（RFC5322）</p>
+      </div>
+
+      <div class="field">
+        <label>パスワード <span style="color:#DC2626;">*</span></label>
+        <input type="password" value="password123" class="input" disabled style="padding-right:36px;">
+        <p class="annotation">type: password | 必須 | 最小8文字</p>
+      </div>
+
+      <!-- Loading button -->
+      <button type="button" class="btn-loading" disabled>
+        <div class="spinner"></div>
+        ログイン中...
+      </button>
+    </form>
+
+    <hr style="border:none; border-top:1px solid #E2E8F0; margin:20px 0;">
+    <div class="link-row">
+      <a href="#">パスワードをお忘れの方</a>
+      <a href="#">アカウントを作成する</a>
+    </div>
+  </div>
+
+  <div style="position:fixed; top:16px; right:16px; background:#64748B; color:#fff; padding:6px 12px; border-radius:20px; font-size:12px; font-weight:600;">
+    状態: 送信中（フォーム無効化）
+  </div>
+</body>
+</html>

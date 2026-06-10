@@ -1,0 +1,41 @@
+---
+description: プロジェクト全体の概要・技術スタック・開発方針（常時適用）
+alwaysApply: true
+---
+
+# 学習管理システム — プロジェクト概要
+
+## 目的
+ユーザーが学習計画・タスクを管理し、進捗を可視化するWebアプリ。
+
+## 技術スタック
+| 層 | 技術 |
+|---|---|
+| フロントエンド | Next.js (App Router) + TypeScript + Tailwind CSS |
+| バックエンド | FastAPI (Python) + SQLAlchemy |
+| データベース | MySQL 8.0 |
+| 認証 | JWT (Bearer token) |
+| 実行環境 | Docker Compose |
+
+## ロール定義
+- **一般ユーザー**: 自分の学習計画・タスク・コメント・ナレッジを管理
+- **管理者 (is_admin=True)**: 一般ユーザー機能 + ユーザー管理・コメント管理
+
+## ディレクトリ構成
+```
+my-app/
+  backend/      FastAPI アプリ
+  frontend/     Next.js アプリ
+  docker-compose.yml
+```
+
+## API通信の基本ルール
+- APIベースURL: `http://localhost:8000`（環境変数 `NEXT_PUBLIC_API_URL`）
+- 認証: `Authorization: Bearer <token>`（localStorage に `access_token` として保存）
+- 401 応答時: tokenを削除して `/login` へリダイレクト
+- エラーレスポンス形式: FastAPI の `{"detail": "日本語メッセージ"}`
+
+## 実装の優先方針
+1. 要件書（画面要件表・機能要件表）・テーブル定義書を最上位の仕様とする
+2. DBのenum値は `db-schema.mdc` に記載した正しい値を使うこと
+3. モックアップ（figma-mockup/*.html）がUIの参考デザインとなる

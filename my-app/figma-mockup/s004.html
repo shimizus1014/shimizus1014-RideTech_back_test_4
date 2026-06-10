@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1440">
+  <title>S-004 ユーザー登録（入力・通常）</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Hiragino Sans, sans-serif; background: #F8FAFC; color: #0F172A; min-width: 1440px; min-height: 100vh; display: flex; align-items: center; justify-content: center; font-size: 14px; line-height: 1.5; padding: 40px 0; }
+    .card { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); width: 100%; max-width: 400px; padding: 40px; }
+    label { display: block; font-size: 13px; font-weight: 500; color: #374151; margin-bottom: 5px; }
+    .input { width: 100%; border: 1px solid #E2E8F0; border-radius: 6px; padding: 8px 12px; font-size: 14px; color: #0F172A; background: #fff; outline: none; font-family: inherit; }
+    .input:focus { border-color: #2563EB; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+    .annotation { font-size: 11px; color: #94A3B8; margin-top: 3px; font-family: 'SFMono-Regular', Consolas, monospace; }
+    .field { display: flex; flex-direction: column; margin-bottom: 16px; }
+    .btn-primary { width: 100%; background: #2563EB; color: #fff; border: none; border-radius: 6px; padding: 9px; font-size: 14px; font-weight: 500; cursor: pointer; margin-top: 8px; }
+    .rel { position: relative; }
+    .tab-num { position: absolute; top: -9px; left: -9px; width: 18px; height: 18px; border-radius: 50%; background: #2563EB; color: #fff; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; z-index: 10; }
+    /* Step indicator */
+    .steps { display: flex; align-items: center; gap: 0; margin-bottom: 28px; }
+    .step { display: flex; align-items: center; gap: 6px; font-size: 12px; }
+    .step-dot { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+    .step-dot.active { background: #2563EB; color: #fff; }
+    .step-dot.inactive { background: #E2E8F0; color: #94A3B8; }
+    .step-label.active { color: #2563EB; font-weight: 500; }
+    .step-label.inactive { color: #94A3B8; }
+    .step-line { flex: 1; height: 1px; background: #E2E8F0; margin: 0 8px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1 style="font-size:22px; font-weight:600; color:#0F172A; margin-bottom:20px;">アカウント作成</h1>
+
+    <!-- Step indicator -->
+    <div class="steps">
+      <div class="step">
+        <div class="step-dot active">1</div>
+        <span class="step-label active">入力</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="step">
+        <div class="step-dot inactive">2</div>
+        <span class="step-label inactive">確認</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="step">
+        <div class="step-dot inactive">3</div>
+        <span class="step-label inactive">完了</span>
+      </div>
+    </div>
+
+    <form>
+      <!-- ① Username -->
+      <div class="field">
+        <label>ユーザー名 <span style="color:#DC2626;">*</span></label>
+        <div class="rel">
+          <span class="tab-num">1</span>
+          <input type="text" placeholder="例：田中太郎" class="input">
+        </div>
+        <p class="annotation">type: text | 必須 | 最大50文字</p>
+      </div>
+
+      <!-- ② Email -->
+      <div class="field">
+        <label>メールアドレス <span style="color:#DC2626;">*</span></label>
+        <div class="rel">
+          <span class="tab-num">2</span>
+          <input type="email" placeholder="example@email.com" class="input">
+        </div>
+        <p class="annotation">type: email | 必須 | 形式検証 / 重複不可</p>
+      </div>
+
+      <!-- ③ Password -->
+      <div class="field">
+        <label>パスワード <span style="color:#DC2626;">*</span></label>
+        <div class="rel">
+          <span class="tab-num">3</span>
+          <input type="password" placeholder="••••••••（8文字以上）" class="input">
+        </div>
+        <p class="annotation">type: password | 必須 | 最小8文字</p>
+      </div>
+
+      <!-- ④ Password confirm -->
+      <div class="field">
+        <label>パスワード（確認） <span style="color:#DC2626;">*</span></label>
+        <div class="rel">
+          <span class="tab-num">4</span>
+          <input type="password" placeholder="••••••••" class="input">
+        </div>
+        <p class="annotation">type: password | 必須 | パスワードと一致検証</p>
+      </div>
+
+      <!-- ⑤ Submit -->
+      <div class="rel" style="margin-top:8px;">
+        <span class="tab-num">5</span>
+        <button type="submit" class="btn-primary">確認する</button>
+      </div>
+    </form>
+
+    <div style="text-align:center; margin-top:16px;">
+      <a href="s001.html" style="font-size:13px; color:#2563EB; text-decoration:none;">ログインはこちら</a>
+    </div>
+  </div>
+
+  <div style="position:fixed; bottom:16px; right:16px; background:#0F172A; color:#fff; padding:10px 14px; border-radius:8px; font-size:11px; line-height:1.8;">
+    <div style="font-weight:600; margin-bottom:4px;">Tab移動順序</div>
+    <div>① ユーザー名</div>
+    <div>② メールアドレス</div>
+    <div>③ パスワード</div>
+    <div>④ パスワード（確認）</div>
+    <div>⑤ 確認するボタン</div>
+    <div>⑥ ログインリンク</div>
+  </div>
+</body>
+</html>

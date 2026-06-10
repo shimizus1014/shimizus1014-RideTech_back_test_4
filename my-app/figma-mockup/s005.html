@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1440">
+  <title>S-005 ユーザー登録（確認）</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Hiragino Sans, sans-serif; background: #F8FAFC; color: #0F172A; min-width: 1440px; min-height: 100vh; display: flex; align-items: center; justify-content: center; font-size: 14px; line-height: 1.5; }
+    .card { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); width: 100%; max-width: 400px; padding: 40px; }
+    .steps { display: flex; align-items: center; gap: 0; margin-bottom: 28px; }
+    .step { display: flex; align-items: center; gap: 6px; font-size: 12px; }
+    .step-dot { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+    .step-dot.done { background: #16A34A; color: #fff; }
+    .step-dot.active { background: #2563EB; color: #fff; }
+    .step-dot.inactive { background: #E2E8F0; color: #94A3B8; }
+    .step-label.done { color: #16A34A; font-weight: 500; }
+    .step-label.active { color: #2563EB; font-weight: 500; }
+    .step-label.inactive { color: #94A3B8; }
+    .step-line { flex: 1; height: 1px; background: #E2E8F0; margin: 0 8px; }
+    .confirm-table { width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 14px; }
+    .confirm-table td { padding: 10px 12px; border: 1px solid #E2E8F0; }
+    .confirm-table .label { background: #F8FAFC; color: #64748B; font-size: 13px; width: 40%; }
+    .confirm-table .value { color: #0F172A; }
+    .btn-primary { width: 100%; background: #2563EB; color: #fff; border: none; border-radius: 6px; padding: 9px; font-size: 14px; font-weight: 500; cursor: pointer; margin-bottom: 8px; }
+    .btn-secondary { width: 100%; background: #fff; color: #374151; border: 1px solid #E2E8F0; border-radius: 6px; padding: 9px; font-size: 14px; cursor: pointer; }
+    .rel { position: relative; }
+    .tab-num { position: absolute; top: -9px; left: -9px; width: 18px; height: 18px; border-radius: 50%; background: #2563EB; color: #fff; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; z-index: 10; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1 style="font-size:22px; font-weight:600; color:#0F172A; margin-bottom:20px;">登録内容の確認</h1>
+
+    <!-- Step indicator -->
+    <div class="steps">
+      <div class="step">
+        <div class="step-dot done">✓</div>
+        <span class="step-label done">入力</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="step">
+        <div class="step-dot active">2</div>
+        <span class="step-label active">確認</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="step">
+        <div class="step-dot inactive">3</div>
+        <span class="step-label inactive">完了</span>
+      </div>
+    </div>
+
+    <p style="font-size:13px; color:#64748B; margin-bottom:16px;">以下の内容で登録します。よろしければ「登録する」を押してください。</p>
+
+    <!-- Confirm table -->
+    <table class="confirm-table">
+      <tr>
+        <td class="label">ユーザー名</td>
+        <td class="value">田中太郎</td>
+      </tr>
+      <tr>
+        <td class="label">メールアドレス</td>
+        <td class="value">tanaka@example.com</td>
+      </tr>
+      <tr>
+        <td class="label">パスワード</td>
+        <td class="value" style="letter-spacing:3px; color:#64748B;">••••••••</td>
+      </tr>
+    </table>
+
+    <!-- Actions -->
+    <div class="rel" style="margin-bottom:8px;">
+      <span class="tab-num">1</span>
+      <button class="btn-primary">登録する</button>
+    </div>
+    <div class="rel">
+      <span class="tab-num">2</span>
+      <button class="btn-secondary">修正する</button>
+    </div>
+  </div>
+
+  <div style="position:fixed; bottom:16px; right:16px; background:#0F172A; color:#fff; padding:10px 14px; border-radius:8px; font-size:11px; line-height:1.8;">
+    <div style="font-weight:600; margin-bottom:4px;">Tab移動順序</div>
+    <div>① 登録するボタン</div>
+    <div>② 修正するボタン</div>
+  </div>
+</body>
+</html>
