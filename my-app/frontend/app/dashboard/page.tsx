@@ -53,10 +53,12 @@ function deadlineColor(deadline: string | null): string {
 
 function statusLabel(status: string): { label: string; className: string } {
   switch (status) {
-    case "in_progress":
+    case "learning":
       return { label: "学習中", className: "bg-blue-100 text-blue-700" };
-    case "completed":
+    case "done":
       return { label: "完了", className: "bg-green-100 text-green-700" };
+    case "paused":
+      return { label: "一時停止", className: "bg-yellow-100 text-yellow-800" };
     default:
       return { label: "未着手", className: "bg-gray-100 text-gray-600" };
   }
@@ -172,24 +174,31 @@ function StatCard({ label, value }: { label: string; value: string }) {
 
 function PlanCard({ plan }: { plan: LearningPlan }) {
   const days = deadlineDays(plan.deadline);
-  const deadlineText = plan.deadline
-    ? days < 0
-      ? "期限超過"
-      : `残り ${days}日`
-    : "";
+  const dLabel = formatDeadline(plan.deadline);
+  const dColor = deadlineColor(plan.deadline);
+  const isAlert = plan.deadline !== null && days <= 3;
 
   return (
-    <div className="bg-white rounded-lg px-4 py-4 border border-gray-100">
-      <p className="text-sm font-medium text-gray-800 mb-3">{plan.title}</p>
+    <div className={`bg-white rounded-lg px-4 py-4 border ${isAlert && days < 0 ? "border-red-200" : isAlert ? "border-yellow-200" : "border-gray-100"}`}>
+      <p className="text-sm font-medium text-gray-800 mb-3 leading-snug">{plan.title}</p>
       <div className="w-full bg-gray-200 rounded-full h-1.5 mb-2">
         <div
           className="bg-blue-500 h-1.5 rounded-full"
           style={{ width: `${plan.progress}%` }}
         />
       </div>
-      <div className="flex justify-between text-xs text-gray-500">
+      <div className="flex justify-between items-center text-xs text-gray-500">
         <span>{plan.progress}%</span>
-        {deadlineText && <span>{deadlineText}</span>}
+        {plan.deadline && (
+          <span className={`flex items-center gap-1 font-medium ${dColor}`}>
+            {isAlert && (
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+              </svg>
+            )}
+            {dLabel !== "期限なし" ? `期限 ${dLabel}` : ""}
+          </span>
+        )}
       </div>
     </div>
   );

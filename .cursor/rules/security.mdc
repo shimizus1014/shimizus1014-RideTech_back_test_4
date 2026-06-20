@@ -1,0 +1,208 @@
+---
+description: セキュリティ規約（XSS・SQLインジェクション・認証・環境変数）常時適用
+alwaysApply: true
+---
+
+# セキュリティ規約
+
+## 1. SQLインジェクション対策
+
+### ✅ 必ずORMを使う
+```python
+# ✅ GOOD — SQLAlchemy ORM（自動でパラメータバインド）
+user = db.query(models.User).filter(models.User.email == email).first()
+
+# ❌ BAD — 生SQLに文字列を直接埋め込む
+db.execute(f"SELECT * FROM users WHERE email = '{email}'")
+```
+
+### LIKE検索もプレースホルダーを使う
+```python
+# ✅ GOOD
+like = f"%{q}%"
+query = query.filter(models.User.username.like(like))
+
+# ❌ BAD
+db.execute(f"SELECT * FROM users WHERE username LIKE '%{q}%'")
+```
+
+### `text()` を使う場合は必ずバインドパラメータを使う
+```python
+from sqlalchemy import text
+
+# ✅ GOOD
+db.execute(text("SELECT * FROM users WHERE id = :id"), {"id": user_id})
+
+# ❌ BAD
+db.execute(text(f"SELECT * FROM users WHERE id = {user_id}"))
+```
+
+---
+
+## 2. XSS対策（フロントエンド）
+
+### React/Next.js はデフォルトでエスケープされる（安全）
+```tsx
+// ✅ JSX内の変数展開はReactが自動エスケープする
+<p>{userComment}</p>
+```
+
+### `dangerouslySetInnerHTML` は使用禁止
+```tsx
+// ❌ 絶対に使わない（XSSの温床）
+<div dangerouslySetInnerHTML={{ __html: userInput }} />
+```
+
+### URLパラメータをそのまま `href` に使わない
+```tsx
+// ❌ BAD — javascript: スキームが埋め込まれる恐れ
+<a href={userProvidedUrl}>リンク</a>
+
+// ✅ GOOD — httpまたはhttpsで始まるURLのみ許可
+const safeUrl = userProvidedUrl.startsWith("http") ? userProvidedUrl : "#";
+<a href={safeUrl}>リンク</a>
+```
+
+---
+
+## 3. 認証・認可
+
+### JWT秘密鍵は環境変数から取得する
+```python
+# ❌ BAD（現状のコード — 必ず修正すること）
+SECRET_KEY = "change-this-secret-key-in-production"
+
+# ✅ GOOD
+import os
+SECRET_KEY = os.environ.get("SECRET_KEY", "dev-only-fallback")
+```
+
+### 管理者チェックは必ずエンドポイント内で行う
+```python
+# ✅ 管理者専用エンドポイントは必ずこのチェックを先頭に置く
+if not current_user.is_admin:
+    raise HTTPException(status_code=403, detail="管理者権限が必要です")
+```
+
+### 他ユーザーのリソースへのアクセスを防ぐ
+```python
+# ✅ 自分のリソースか確認してから返す
+plan = db.query(models.LearningPlan).filter(models.LearningPlan.id == plan_id).first()
+if not plan:
+    raise HTTPException(status_code=404, detail="学習計画が見つかりません")
+if plan.user_id != current_user.id and not current_user.is_admin:
+    raise HTTPException(status_code=403, detail="アクセス権限がありません")
+```
+
+---
+
+## 4. パスワード
+
+### パスワードはそのまま保存しない（bcryptのみ使用）
+```python
+# ✅ GOOD（auth.py の既存実装）
+hashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
+
+# ❌ DBにプレーンテキストで保存しない
+user.password = plain_password
+```
+
+### パスワードをレスポンスに含めない
+```python
+# ✅ UserOut スキーマに hashed_password を含めない（既存実装は正しい）
+class UserOut(BaseModel):
+    id: int
+    username: str
+    email: str
+    is_admin: bool
+    # hashed_password は含めない
+```
+
+---
+
+## 5. エラーレスポンスの情報漏洩防止
+
+```python
+# ❌ BAD — スタックトレースや内部情報を返さない
+raise HTTPException(status_code=500, detail=str(e))
+
+# ✅ GOOD — ユーザーに見せる情報だけ返す
+raise HTTPException(status_code=500, detail="サーバーエラーが発生しました")
+```
+
+---
+
+## 6. 環境変数・.env ファイル管理
+
+### ファイル構成
+```
+my-app/
+  backend/
+    .env               # バックエンド用（Git管理外）
+    .env.example       # テンプレート（Git管理する）
+  frontend/
+    .env.local         # フロントエンド用（Git管理外）
+    .env.example       # テンプレート（Git管理する）
+```
+
+### バックエンド `.env` に定義する変数
+```env
+SECRET_KEY=本番用の長いランダム文字列
+DATABASE_URL=mysql+pymysql://appuser:apppass@db:3306/appdb
+ADMIN_EMAIL=admin@example.com
+ADMIN_PASSWORD=初期管理者パスワード
+ACCESS_TOKEN_EXPIRE_MINUTES=1440
+```
+
+### フロントエンド `.env.local` に定義する変数
+```env
+NEXT_PUBLIC_API_URL=http://localhost:8000
+```
+
+### バックエンドでの読み込みパターン
+```python
+# ✅ GOOD — python-dotenv + os.environ で読み込む
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+SECRET_KEY = os.environ["SECRET_KEY"]           # 必須（なければ起動時にエラー）
+DATABASE_URL = os.environ.get("DATABASE_URL", "mysql+pymysql://appuser:apppass@db:3306/appdb")
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.environ.get("ACCESS_TOKEN_EXPIRE_MINUTES", "1440"))
+
+# ❌ BAD — ハードコードしない
+SECRET_KEY = "change-this-secret-key-in-production"
+```
+
+### .gitignore に必ず追加する
+```
+my-app/backend/.env
+my-app/frontend/.env.local
+```
+
+### .env.example は必ずコミットする（値は空またはダミー）
+```env
+# .env.example — このファイルをコピーして .env を作成してください
+SECRET_KEY=
+DATABASE_URL=mysql+pymysql://appuser:apppass@db:3306/appdb
+ADMIN_EMAIL=admin@example.com
+ADMIN_PASSWORD=
+ACCESS_TOKEN_EXPIRE_MINUTES=1440
+```
+
+---
+
+## 7. フロントエンドのトークン管理
+
+- JWT は `localStorage` に保存（現状の実装）
+- 401 が返ったら必ずトークンを削除して `/login` へリダイレクト
+- トークンを URL クエリパラメータや `console.log` に含めない
+
+```tsx
+// ✅ 401時の処理（必須パターン）
+if (res.status === 401) {
+  localStorage.removeItem("access_token");
+  router.replace("/login");
+  return;
+}
+```

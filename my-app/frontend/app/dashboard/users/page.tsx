@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 
@@ -38,10 +39,15 @@ export default function UsersPage() {
     const res = await fetch(`${API_URL}/users/search?q=${encodeURIComponent(q)}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
+    if (res.status === 401) {
+      localStorage.removeItem("access_token");
+      router.replace("/login");
+      return;
+    }
     if (res.ok) {
       setUsers(await res.json());
     }
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     const token = getToken();
@@ -154,13 +160,16 @@ export default function UsersPage() {
         ) : (
           users.map((user) => (
             <div key={user.id} className="flex items-center justify-between px-4 py-3">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-sm font-medium">
+              <Link
+                href={`/dashboard/users/${user.id}`}
+                className="flex items-center gap-3 min-w-0 hover:opacity-80 transition-opacity"
+              >
+                <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-sm font-medium flex-shrink-0">
                   {user.username.charAt(0).toUpperCase()}
                 </div>
-                <div>
+                <div className="min-w-0">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium text-gray-800">{user.username}</span>
+                    <span className="text-sm font-medium text-gray-800 hover:text-blue-600 transition-colors">{user.username}</span>
                     {user.is_admin && (
                       <span className="text-xs px-1.5 py-0.5 bg-purple-100 text-purple-700 rounded font-medium">
                         管理者
@@ -169,7 +178,7 @@ export default function UsersPage() {
                   </div>
                   <span className="text-xs text-gray-500">{user.email}</span>
                 </div>
-              </div>
+              </Link>
 
               {/* 管理者のみ表示 */}
               {currentUser?.is_admin && user.id !== currentUser.id && (
